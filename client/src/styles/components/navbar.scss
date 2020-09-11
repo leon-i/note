@@ -1,0 +1,14 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    h2 {
+        font-size: 2em;
+    }
+
+    .ant-btn-primary {
+        margin-left: 2em;
+        font-weight: bold;
+    }
+}

@@ -1,0 +1,11 @@
+@import '~antd/dist/antd.css';
+
+h2 {
+    margin: 0;
+    color: #fff;
+    font-weight: 500;
+}
+
+button span {
+    font-weight: bold;
+}
