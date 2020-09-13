@@ -20,7 +20,7 @@ export interface Notepad {
     ID: number;
     name: string;
     description: string;
-    posts: Post[] | null;
+    posts: Post[];
     CreatedAt: string;
     UpdatedAt: string;
 }
@@ -37,6 +37,13 @@ export interface Post {
     user_id: number;
     notepad_id: number;
     comments: Comment[];
+}
+
+export interface NewPost {
+    title: string;
+    content: string;
+    user_id: number;
+    notepad_id: number;
 }
 
 export interface Comment {

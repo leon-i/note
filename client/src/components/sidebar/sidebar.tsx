@@ -8,11 +8,12 @@ const Sidebar = () => {
     
     return (
         <>
+            <h2 className='logo'>note</h2>
             <Menu
             mode="inline"
             theme='dark'
             selectable={false}
-            style={{ height: '100%', borderRight: 0 }}
+            style={{ borderRight: 0 }}
         >
                 <Menu.Item key="1"
                     icon={<PlusOutlined />}

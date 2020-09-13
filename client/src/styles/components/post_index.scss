@@ -1,0 +1,20 @@
+.post-index {
+    width: 100%;
+    padding: 24px 32px;
+
+    .ant-card-body {
+        min-height: 250px;
+    }
+
+    .comments {
+        padding: 0 8px;
+        .ant-card-head {
+            min-height: 0;
+
+            .ant-card-head-title {
+                color: #fff !important;
+                padding: 4px 0;
+            }
+        }
+    }
+}

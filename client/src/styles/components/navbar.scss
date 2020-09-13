@@ -11,4 +11,14 @@
         margin-left: 2em;
         font-weight: bold;
     }
+
+    .ant-breadcrumb {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .ant-breadcrumb-link a, .ant-breadcrumb-separator {
+        font-size: 1.4em;
+    }
 }

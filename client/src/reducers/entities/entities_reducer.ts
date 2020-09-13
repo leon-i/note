@@ -5,4 +5,6 @@ import notepadsReducer from './notepads_reducer';
 export default combineReducers({
     users: usersReducer,
     notepads: notepadsReducer
-})
+});
+
+export type NotepadState = ReturnType<typeof notepadsReducer>

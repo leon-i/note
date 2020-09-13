@@ -10,7 +10,21 @@ import (
 func GetNotepads(c *fiber.Ctx) {
 	var notepads []models.Notepad
 
-	if err := db.DBConn.Find(&notepads).Error; err != nil {
+	// if err := db.DBConn.Find(&notepads).Error; err != nil {
+	// 	c.Status(404).Send(err)
+	// 	return
+	// }
+
+	err := db.DBConn.Table("notepads").
+		Select("notepads.*").
+		Joins("left join posts on notepads.id = posts.notepad_id").
+		Group("notepads.id").
+		Order("COUNT(posts.notepad_id)").
+		Limit(8).
+		Scan(&notepads).
+		Error
+
+	if err != nil {
 		c.Status(404).Send(err)
 		return
 	}
@@ -22,7 +36,17 @@ func GetNotepad(c *fiber.Ctx) {
 	var notepad models.Notepad
 	id := c.Params("id")
 
-	if err := db.DBConn.Preload("Posts").Find(&notepad, id).Error; err != nil {
+	// if err := db.DBConn.Preload("Posts.Comments").Preload("Comments").Find(&notepad, id).Error; err != nil {
+	// 	c.Status(404).Send(err)
+	// 	return
+	// }
+
+	err := db.DBConn.Preload("Posts").
+		Preload("Posts.Comments").
+		Find(&notepad, id).
+		Error
+
+	if err != nil {
 		c.Status(404).Send(err)
 		return
 	}

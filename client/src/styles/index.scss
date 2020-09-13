@@ -2,6 +2,7 @@
 @import './forms/register-form.scss';
 @import './components/navbar.scss';
 @import './components//notepad_index.scss';
+@import './components/post_index.scss';
 @import './color_overrides/colors.scss';
 
 #root, .ant-layout {
@@ -13,3 +14,9 @@
     flex-direction: column;
     align-items: center;
 }
+
+.logo {
+    font-size: 32px;
+    color: #fff;
+    margin: 8px 16px 4px 20px;
+  }

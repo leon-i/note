@@ -55,6 +55,18 @@ input, .ant-input-affix-wrapper {
     }
 }
 
+.ant-breadcrumb-link a {
+    color: #fff !important;
+
+    &:hover {
+        color: #40a9ff !important;
+    }
+}
+
+.ant-breadcrumb-separator {
+    color: #fff !important;
+}
+
 h1 {
     color: #fff !important;
 }

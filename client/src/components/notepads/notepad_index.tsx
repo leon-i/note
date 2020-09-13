@@ -1,26 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../reducers/root_reducer';
+import { NotepadState } from '../../reducers/entities/entities_reducer';
 import { Notepad } from '../../interfaces';
 import { fetchNotepads } from '../../actions/notepad_actions';
 import { Space, Row, Col, Typography } from 'antd';
+
 import NotepadIndexItem from './notepad_index_item';
 
 interface Props {
-    notepads: Notepad[];
+    notepads: NotepadState;
     fetchNotepads: typeof fetchNotepads;
 }
 
-const notepadConvert = (notepads : Notepad[]) => (
-    notepads.map((notepad, idx) => <NotepadIndexItem notepad={notepad} key={idx} idx={idx} />)
-);
+const notepadConvert = (notepads : Notepad[], loading : boolean) => {
+    const items = notepads.map((notepad, idx) => <NotepadIndexItem notepad={notepad} key={idx} idx={idx} loading={loading} />)
+
+    return (
+        <>
+            <Row>
+                {items.slice(0, 4)}
+            </Row>
+            <Row>
+                {items.slice(4)}
+            </Row>
+        </>
+    );
+};
 
 const NotepadIndex : React.FC<Props> = ({ notepads, fetchNotepads }) => {
+    const [fetchingState, setFetchingState] = useState<boolean>(false);
+
     useEffect(() => {
-        fetchNotepads();
+        setFetchingState(true);
+        fetchNotepads().then(() => {
+            setFetchingState(false);
+        });
     }, [fetchNotepads])
 
-    const notepadItems = notepadConvert(notepads);
+    const notepadItems = notepadConvert(Object.values(notepads), fetchingState);
 
     return (
         <Space className='notepad-index' direction='vertical'>
@@ -29,18 +47,7 @@ const NotepadIndex : React.FC<Props> = ({ notepads, fetchNotepads }) => {
                     <Typography.Title level={1}>Notepads</Typography.Title>
                 </Col>
             </Row>
-            {
-                notepadItems.length > 0 &&
-                <Row>
-                    {notepadItems.slice(0, 4)}
-                </Row>
-            }
-            {
-                notepadItems.length > 4 &&
-                <Row>
-                    {notepadItems.slice(4)}
-                </Row>
-            }
+            { notepadItems }
         </Space>
     )
 }

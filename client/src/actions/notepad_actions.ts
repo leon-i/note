@@ -51,7 +51,7 @@ export const clearNotepadErrors = () => ({
 export const fetchNotepads : any = () => (dispatch : Dispatch) =>
     NotepadAPIUtil.fetchNotepads().then(res => dispatch(receiveNotepads(res.data)))
 
-export const fetchNotepad = (id : number) => (dispatch : Dispatch) =>
+export const fetchNotepad : any = (id : number) => (dispatch : Dispatch) =>
     NotepadAPIUtil.fetchNotepad(id).then(res => dispatch(receiveNotepad(res.data)))
 
 export const createNotepad : any = (newNotepad : NewNotepad) => (dispatch : Dispatch) =>
