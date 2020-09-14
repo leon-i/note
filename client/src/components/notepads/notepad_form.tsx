@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RootState } from '../../reducers/root_reducer';
-import {  NewNotepad } from '../../interfaces';
+import {  NewNotepad, Notepad } from '../../interfaces';
 import { createNotepad, clearNotepadErrors } from '../../actions/notepad_actions';
 import {
     Modal,
     Form,
-    Input
+    Input,
+    Typography
 } from 'antd';
 
 interface Props {
@@ -18,13 +20,28 @@ interface Props {
     clearNotepadErrors: typeof clearNotepadErrors;
 }
 
-const NotepadForm : React.FC<Props> = ({ user_id, errors, visible, closeModal, createNotepad, clearNotepadErrors }) => {
+const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 15 },
+};
+
+const NotepadForm : React.FC<Props & RouteComponentProps> = ({ user_id, 
+errors, 
+visible, 
+history, 
+closeModal, 
+createNotepad, 
+clearNotepadErrors }) => {
     const [form] = Form.useForm();
     const handleSubmit = async(values : NewNotepad) => {
-        await createNotepad(Object.assign({}, values, user_id));
-        form.validateFields(['name'])
-            .then(() => closeModal())
-            .catch(() => null);
+        createNotepad(Object.assign({}, values, user_id)).then((notepad : Notepad) => {
+            form.validateFields(['name'])
+                .then(() => {
+                    history.push(`/Notepads/${notepad.ID}`);
+                    closeModal();
+                })
+                .catch(() => null);
+        });
     }
 
     const waitForReset = () => (
@@ -45,7 +62,9 @@ const NotepadForm : React.FC<Props> = ({ user_id, errors, visible, closeModal, c
             onOk={handleOk}
             onCancel={closeModal}
             okText='Create Notepad'>
+            <Typography.Title level={3} style={{ color: '#fff', marginBottom: '1em' }}>Create a Notepad</Typography.Title>
             <Form
+                {...layout}
                 className='notepad-form'
                 form={form}
                 name="notepad"
@@ -85,7 +104,7 @@ const NotepadForm : React.FC<Props> = ({ user_id, errors, visible, closeModal, c
                         whitespace: true },
                     ]}
                 >
-                    <Input style={{ border: '1px solid #888888' }} />
+                    <Input.TextArea style={{ border: '1px solid #888888' }} />
                 </Form.Item>
             </Form> 
         </Modal>
@@ -102,4 +121,4 @@ const mapDispatchToProps = ({
     clearNotepadErrors
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotepadForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NotepadForm));

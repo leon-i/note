@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
-import { Notepad, NewNotepad } from '../interfaces';
+import { Notepad, NewNotepad, Post } from '../interfaces';
 import * as NotepadAPIUtil from '../util/notepad_util';
+import { receivePosts } from './post_actions';
 
 export const RECEIVE_NOTEPADS = 'RECEIVE_NOTEPADS';
 export const RECEIVE_NOTEPAD = 'RECEIVE_NOTEPAD';
@@ -52,11 +53,17 @@ export const fetchNotepads : any = () => (dispatch : Dispatch) =>
     NotepadAPIUtil.fetchNotepads().then(res => dispatch(receiveNotepads(res.data)))
 
 export const fetchNotepad : any = (id : number) => (dispatch : Dispatch) =>
-    NotepadAPIUtil.fetchNotepad(id).then(res => dispatch(receiveNotepad(res.data)))
+    NotepadAPIUtil.fetchNotepad(id).then(res => { 
+        dispatch(receiveNotepad(res.data.notepad))
+        dispatch(receivePosts(res.data.posts))
+    })
 
 export const createNotepad : any = (newNotepad : NewNotepad) => (dispatch : Dispatch) =>
-    NotepadAPIUtil.createNotepad(newNotepad).then(res => dispatch(receiveNotepad(res.data)))
-    .catch(err => dispatch(receiveNotepadErrors(err.response.data.data)))
+    NotepadAPIUtil.createNotepad(newNotepad).then(res => {
+        dispatch(receiveNotepad(res.data));
+        return res.data;
+    })
+    .catch(err => dispatch(receiveNotepadErrors(err.response.data?.data || "Log in to create a Notepad")))
 
 export const deleteNotepad = (id : number) => (dispatch : Dispatch) =>
     NotepadAPIUtil.deleteNotepad(id).then(res => dispatch(receiveNotepad(res.data.data)))

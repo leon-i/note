@@ -6,12 +6,14 @@ import { createPost, clearPostErrors } from '../../actions/post_actions';
 import {
     Modal,
     Form,
-    Input
+    Input,
+    Typography
 } from 'antd';
 
 interface Props {
-    user_id: number | null;
-    notepad_id: number | null;
+    userId: number | null;
+    notepadId: number | null;
+    notepadName: string;
     errors: string | null;
     visible: boolean;
     closeModal: () => void;
@@ -19,13 +21,18 @@ interface Props {
     clearPostErrors: typeof clearPostErrors;
 }
 
-const PostForm : React.FC<Props> = ({ user_id, notepad_id, errors, visible, closeModal, createPost, clearPostErrors }) => {
+const layout = {
+    labelCol: { span: 7 },
+    wrapperCol: { span: 15 },
+};
+
+const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, visible, closeModal, createPost, clearPostErrors }) => {
     const [form] = Form.useForm();
     const handleSubmit = async(values : NewPost) => {
-        await createPost(Object.assign({}, values, user_id, notepad_id));
-        form.validateFields(['title', 'content'])
+        await createPost(Object.assign({}, values, { UserID: userId, NotepadID: notepadId }));
+        form.validateFields(['Title'])
             .then(() => closeModal())
-            .catch(() => null);
+            .catch(() => null)
     }
 
     const waitForReset = () => (
@@ -46,7 +53,9 @@ const PostForm : React.FC<Props> = ({ user_id, notepad_id, errors, visible, clos
             onOk={handleOk}
             onCancel={closeModal}
             okText='Create Post'>
+            <Typography.Title level={3} style={{ color: '#fff', marginBottom: '1em' }}>{`Post to #${notepadName}`}</Typography.Title>
             <Form
+                {...layout}
                 className='post-form'
                 form={form}
                 name="post"
@@ -86,7 +95,7 @@ const PostForm : React.FC<Props> = ({ user_id, notepad_id, errors, visible, clos
                         whitespace: true },
                     ]}
                 >
-                    <Input style={{ border: '1px solid #888888' }} />
+                    <Input.TextArea style={{ border: '1px solid #888888' }} />
                 </Form.Item>
             </Form> 
         </Modal>
@@ -94,7 +103,7 @@ const PostForm : React.FC<Props> = ({ user_id, notepad_id, errors, visible, clos
 }
 
 const mapStateToProps = (state : RootState) => ({
-    user_id: state.session.currentUserId,
+    userId: state.session.currentUserId,
     errors: state.errors.post
 });
 

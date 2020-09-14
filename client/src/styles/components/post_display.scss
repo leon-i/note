@@ -1,0 +1,29 @@
+.post-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 24px 32px;
+
+    // .ant-space-item {
+    //     width: 100%;
+    // }
+
+    .post-main {
+        width: 80%;
+    }
+
+    .comments-index {
+        align-self: flex-start;
+        padding: 12px 0;
+        margin-left: 15%;
+
+        .comment-item {
+            min-width: 350px;
+        }
+    }
+}
+
+.post-display * {
+    color: #fff !important;
+}

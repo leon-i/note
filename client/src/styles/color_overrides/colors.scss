@@ -32,7 +32,7 @@ label, .ant-input-suffix span {
     }
 }
 
-input, .ant-input-affix-wrapper {
+input, .ant-input-affix-wrapper, textarea {
     background-color: #424242 !important;
     color: #fff !important;
 }
@@ -46,7 +46,24 @@ input, .ant-input-affix-wrapper {
 
         a {
             font-size: 1.2em;
-            color: #03DAC6 !important;
+            color: #fff !important;
+
+            &:hover {
+                color: #1890ff !important;
+            }
+        }
+    }
+
+    .ant-card-actions {
+        background: $dark-layer-2;
+        border-color: #747474;
+
+        a {
+            color: #fff !important;
+
+            &:hover {
+                color: #1890ff !important;
+            }
         }
     }
 
@@ -65,6 +82,23 @@ input, .ant-input-affix-wrapper {
 
 .ant-breadcrumb-separator {
     color: #fff !important;
+}
+
+.ant-layout-sider {
+    background: $dark-layer-1 !important;
+
+    .ant-menu {
+        background: $dark-layer-1 !important;
+
+        .ant-menu-item {
+            font-size: 1.1em;
+            color: #fff !important;
+
+            &:hover {
+                color: #1890ff !important;
+            }
+        }
+    }
 }
 
 h1 {

@@ -2,8 +2,42 @@
     width: 100%;
     padding: 24px 32px;
 
-    .ant-card-body {
-        min-height: 250px;
+    .notepad-header {
+        display: flex;
+        justify-content: space-between;
+        padding-right: 48px;
+
+        h2 {
+            color: #fff !important;
+        }
+    }
+
+    .post-item {
+        .post-title {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .anticon-user {
+                margin-right: 4px;
+            }
+        }
+
+        .ant-card-head-title {
+            font-size: 1.25em;
+            padding: 4px 0;
+
+            h4 {
+                color: #fff !important;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        .ant-card-body {
+            min-height: 150px;
+        }
     }
 
     .comments {

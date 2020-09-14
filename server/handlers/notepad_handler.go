@@ -5,6 +5,7 @@ import (
 	"github.com/leon-i/note/db"
 	"github.com/leon-i/note/models"
 	"github.com/leon-i/note/util"
+	"gorm.io/gorm"
 )
 
 func GetNotepads(c *fiber.Ctx) {
@@ -19,7 +20,7 @@ func GetNotepads(c *fiber.Ctx) {
 		Select("notepads.*").
 		Joins("left join posts on notepads.id = posts.notepad_id").
 		Group("notepads.id").
-		Order("COUNT(posts.notepad_id)").
+		Order("COUNT(posts.notepad_id) DESC").
 		Limit(8).
 		Scan(&notepads).
 		Error
@@ -34,15 +35,20 @@ func GetNotepads(c *fiber.Ctx) {
 
 func GetNotepad(c *fiber.Ctx) {
 	var notepad models.Notepad
+	var posts []models.Post
 	id := c.Params("id")
 
-	// if err := db.DBConn.Preload("Posts.Comments").Preload("Comments").Find(&notepad, id).Error; err != nil {
-	// 	c.Status(404).Send(err)
-	// 	return
-	// }
-
-	err := db.DBConn.Preload("Posts").
+	err := db.DBConn.Preload("Posts", func(db *gorm.DB) *gorm.DB {
+		return db.Order("posts.updated_at DESC").
+			Limit(3)
+	}).
+		Preload("Posts.User", func(db *gorm.DB) *gorm.DB {
+			return db.Select("users.ID, users.Username")
+		}).
 		Preload("Posts.Comments").
+		Preload("Posts.Comments.User", func(db *gorm.DB) *gorm.DB {
+			return db.Select("users.ID, users.Username")
+		}).
 		Find(&notepad, id).
 		Error
 
@@ -57,7 +63,13 @@ func GetNotepad(c *fiber.Ctx) {
 		return
 	}
 
-	c.JSON(notepad)
+	posts = notepad.Posts
+	notepad.Posts = nil
+
+	c.JSON(fiber.Map{
+		"notepad": notepad,
+		"posts":   posts,
+	})
 }
 
 func CreateNotepad(c *fiber.Ctx) {

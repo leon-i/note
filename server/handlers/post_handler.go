@@ -4,13 +4,14 @@ import (
 	"github.com/gofiber/fiber"
 	"github.com/leon-i/note/db"
 	"github.com/leon-i/note/models"
+	"gorm.io/gorm"
 )
 
 type NewPost struct {
-	Title       string
-	Content     string
-	UserID      uint
-	NotepadName string
+	Title     string
+	Content   string
+	UserID    uint
+	NotepadID uint
 }
 
 func GetPosts(c *fiber.Ctx) {
@@ -28,7 +29,13 @@ func GetPost(c *fiber.Ctx) {
 	var post models.Post
 	id := c.Params("id")
 
-	if err := db.DBConn.Preload("Comments").Find(&post, id).Error; err != nil {
+	if err := db.DBConn.Preload("User", func(db *gorm.DB) *gorm.DB {
+		return db.Select("users.ID, users.username")
+	}).Preload("Comments").
+		Preload("Comments.User", func(db *gorm.DB) *gorm.DB {
+			return db.Select("users.ID, users.username")
+		}).
+		Find(&post, id).Error; err != nil {
 		c.Status(404).Send(err)
 		return
 	}
@@ -51,8 +58,7 @@ func CreatePost(c *fiber.Ctx) {
 		return
 	}
 
-	if err := db.DBConn.Where(&models.Notepad{Name: newPost.NotepadName}).
-		Find(&notepad); err != nil {
+	if err := db.DBConn.Find(&notepad, newPost.NotepadID).Error; err != nil {
 		c.Status(500).Send(err)
 		return
 	}

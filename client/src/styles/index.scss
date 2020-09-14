@@ -3,6 +3,7 @@
 @import './components/navbar.scss';
 @import './components//notepad_index.scss';
 @import './components/post_index.scss';
+@import './components/post_display.scss';
 @import './color_overrides/colors.scss';
 
 #root, .ant-layout {
@@ -18,5 +19,5 @@
 .logo {
     font-size: 32px;
     color: #fff;
-    margin: 8px 16px 4px 20px;
+    margin: 4px 16px 10px 20px;
   }

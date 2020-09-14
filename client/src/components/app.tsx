@@ -1,9 +1,10 @@
 import React from 'react';
-import { Layout } from 'antd';
 import { Switch, Route } from "react-router-dom";
+import { Layout } from 'antd';
 import Splash from '../screens/Splash';
 import Navbar from './navbar';
-import NotepadDisplay from './notepads/notepad_display';
+import NotepadScreen from '../screens/Notepad';
+import PostScreen from '../screens/Post';
 import Sidebar from '../components/sidebar/sidebar';
 // import '../styles/index.scss';
 
@@ -22,7 +23,8 @@ const App : React.FC = () => {
         <Content>
           <Switch>
               <Route exact path='/' component={Splash} />
-              <Route exact path='/Notepads/:id' component={NotepadDisplay} />
+              <Route path='/Notepads/:notepadId/Posts/:postId' component={PostScreen} />
+              <Route exact path='/Notepads/:id' component={NotepadScreen} />
           </Switch>
         </Content>
       </Layout>

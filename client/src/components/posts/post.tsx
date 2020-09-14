@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Post, Comment } from '../../interfaces';
-import { Row, Col, Card } from 'antd';
+import { Row, Col, Card, Typography } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 interface Props {
     post: Post;
@@ -9,10 +10,12 @@ interface Props {
 }
 
 const commentPreview = (comments : Comment[], loading : boolean) => (
-    comments.slice(0, 2).map((comment : Comment) => (
-        <Row>
+    comments.slice(0, 2).map((comment : Comment, idx : number) => (
+        <Row key={idx}>
             <Col span={24}>
-                <Card title={comment.ID} style={{ maxHeight:'150px', color: '#fff'}}>
+                <Card title={comment.author.username} 
+                    style={{ maxHeight:'150px', color: '#fff'}}
+                    loading={loading}>
                     {comment.content}
                 </Card>
             </Col>
@@ -23,12 +26,23 @@ const commentPreview = (comments : Comment[], loading : boolean) => (
 const PostItem : React.FC<Props> = ({ post, loading }) => (
     <Row>
         <Col span={16}>
-            <Card loading={loading} title={
+            <Card className="post-item" loading={loading} title={
                 !loading &&
-                <Link to={`/Posts/${post.ID}`}>
-                    {post.title}
+                <div className='post-title'>
+                    <Link to={`${post.notepad_id}/Posts/${post.ID}`}>
+                        {post.title}
+                    </Link>
+                    <Typography.Title level={4}>
+                        <UserOutlined />
+                        {post.author.username}
+                    </Typography.Title>
+                </div>
+            } style={{ color: '#fff' }}
+            actions={[
+                <Link to={`${post.notepad_id}/Posts/${post.ID}`}>
+                    {`${post.comments ? post.comments.length : 0} Comments`}
                 </Link>
-            } style={{ color: '#fff' }}>
+            ]}>
                 {post.content}
             </Card>
         </Col>

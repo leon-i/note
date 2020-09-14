@@ -34,8 +34,10 @@ export interface Post {
     ID: number;
     title: string;
     content: string;
-    user_id: number;
+    author_id: number;
+    author: User;
     notepad_id: number;
+    notepad: Notepad;
     comments: Comment[];
 }
 
@@ -49,6 +51,7 @@ export interface NewPost {
 export interface Comment {
     ID: number;
     content: string;
-    user_id: number;
+    author_id: number;
+    author: User;
     post_id: number;
 }

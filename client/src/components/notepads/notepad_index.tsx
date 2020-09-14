@@ -34,11 +34,13 @@ const NotepadIndex : React.FC<Props> = ({ notepads, fetchNotepads }) => {
     useEffect(() => {
         setFetchingState(true);
         fetchNotepads().then(() => {
-            setFetchingState(false);
+            setTimeout(() => {
+                setFetchingState(false);
+            }, 200)
         });
     }, [fetchNotepads])
 
-    const notepadItems = notepadConvert(Object.values(notepads), fetchingState);
+    const notepadItems = notepadConvert(notepads, fetchingState);
 
     return (
         <Space className='notepad-index' direction='vertical'>
