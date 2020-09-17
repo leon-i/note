@@ -13,6 +13,17 @@
     }
 
     .post-item {
+        .post-image {
+            margin-right: 16px;
+            background-color: #000000;
+            border-radius: 4px;
+            cursor: pointer;
+
+            img {
+                object-fit: contain;
+            }
+        }
+
         .post-title {
             display: flex;
             flex-direction: row;
@@ -37,6 +48,11 @@
 
         .ant-card-body {
             min-height: 150px;
+
+            .post-body {
+                display: flex;
+                flex-direction: row;
+            }
         }
     }
 

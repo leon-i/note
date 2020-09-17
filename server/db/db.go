@@ -30,6 +30,8 @@ func Connect() {
 		panic("failed to connect database")
 	}
 
+	util.ConnectToAWS()
+
 	DBConn.Migrator().DropTable(&models.User{})
 	DBConn.Migrator().DropTable(&models.Notepad{})
 	DBConn.Migrator().DropTable(&models.Post{})

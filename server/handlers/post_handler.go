@@ -4,14 +4,15 @@ import (
 	"github.com/gofiber/fiber"
 	"github.com/leon-i/note/db"
 	"github.com/leon-i/note/models"
+	"github.com/leon-i/note/util"
 	"gorm.io/gorm"
 )
 
 type NewPost struct {
-	Title     string
-	Content   string
-	UserID    uint
-	NotepadID uint
+	Title     string	`form:"title"`
+	Content   string	`form:"content"`
+	UserID    uint	`form:"UserID"`
+	NotepadID uint	`form:"NotepadID"`
 }
 
 func GetPosts(c *fiber.Ctx) {
@@ -35,6 +36,7 @@ func GetPost(c *fiber.Ctx) {
 		Preload("Comments.User", func(db *gorm.DB) *gorm.DB {
 			return db.Select("users.ID, users.username")
 		}).
+		Preload("Comments.Replies").
 		Find(&post, id).Error; err != nil {
 		c.Status(404).Send(err)
 		return
@@ -77,11 +79,45 @@ func CreatePost(c *fiber.Ctx) {
 	}
 
 	if err := db.DBConn.Create(&post).Error; err != nil {
+		c.Status(500).JSON(fiber.Map{
+			"status": "error",
+			"message": "Log in to create a post",
+			"data": nil,
+		})
+		return
+	}
+
+	fileHeader, err := c.FormFile("image")
+
+	if err == nil {
+		file, err := fileHeader.Open()
+
+		if err != nil {
+			c.Status(500).Send(err)
+			return
+		}
+
+		imageURL, err := util.HandleFileUpload(file, fileHeader)
+
+		if err != nil {
+			c.Status(500).Send(err)
+			return
+		}
+
+		if err := db.DBConn.Model(&post).Update("ImageURL", imageURL).Error; err != nil {
+			c.Status(500).Send(err)
+			return
+		}
+	}
+
+	var res models.Post
+
+	if err := db.DBConn.Preload("User").Find(&res, post.ID).Error; err != nil {
 		c.Status(500).Send(err)
 		return
 	}
 
-	c.JSON(post)
+	c.JSON(res)
 }
 
 func DeletePost(c *fiber.Ctx) {

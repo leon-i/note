@@ -34,6 +34,7 @@ export interface Post {
     ID: number;
     title: string;
     content: string;
+    imageURL: string;
     author_id: number;
     author: User;
     notepad_id: number;

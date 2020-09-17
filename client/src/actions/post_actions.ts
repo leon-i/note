@@ -65,9 +65,9 @@ export const fetchPosts : any = () => (dispatch : Dispatch) =>
 export const fetchPost : any = (id : number) => (dispatch : Dispatch) =>
     PostAPIUtil.fetchPost(id).then(res => dispatch(receiveCurrentPost(res.data)))
 
-export const createPost : any = (newPost : NewPost) => (dispatch : Dispatch) =>
+export const createPost : any = (newPost : FormData) => (dispatch : Dispatch) =>
     PostAPIUtil.createPost(newPost).then(res => dispatch(receivePost(res.data)))
-    .catch(err => dispatch(receivePostErrors(err.response.data?.data || "Log in to create a post")))
+    .catch(err => dispatch(receivePostErrors(err.response.data?.data || err.response.data)))
 
 export const deletePost = (id : number) => (dispatch : Dispatch) =>
     PostAPIUtil.deletePost(id).then(res => dispatch(receivePost(res.data.data)))

@@ -1,2 +1,4 @@
 /client/node_modules
+/client/.idea
 /server/.env
+/server/.idea

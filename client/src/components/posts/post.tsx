@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Post, Comment } from '../../interfaces';
-import { Row, Col, Card, Typography } from 'antd';
+import { Row, Col, Card, Typography, Image } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 interface Props {
@@ -43,7 +43,17 @@ const PostItem : React.FC<Props> = ({ post, loading }) => (
                     {`${post.comments ? post.comments.length : 0} Comments`}
                 </Link>
             ]}>
-                {post.content}
+                <section className='post-body'>
+                    {
+                        post.imageURL &&
+                        <Image className='post-image'
+                               src={post.imageURL}
+                               width={200}
+                               height={150}
+                               alt='post-image' />
+                    }
+                    {post.content}
+                </section>
             </Card>
         </Col>
         <Col className='comments' span={8}>

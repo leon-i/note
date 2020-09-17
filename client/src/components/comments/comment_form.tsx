@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../reducers/root_reducer';
-import {  NewPost } from '../../interfaces';
-import { createPost, clearPostErrors } from '../../actions/post_actions';
+import { createComment, clearCommentErrors } from '../../actions/comment_actions';
 import {
     Modal,
     Form,
@@ -12,13 +11,17 @@ import {
 
 interface Props {
     userId: number | null;
-    notepadId: number | null;
-    notepadName: string;
+    postId: number | null;
+    replyId: number | null;
     errors: string | null;
     visible: boolean;
     closeModal: () => void;
-    createPost: typeof createPost;
-    clearPostErrors: typeof clearPostErrors;
+    createComment: typeof createComment;
+    clearCommentErrors: typeof clearCommentErrors;
+}
+
+interface FormValues {
+    content: string
 }
 
 const layout = {
@@ -26,28 +29,28 @@ const layout = {
     wrapperCol: { span: 15 },
 };
 
-const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, visible, closeModal, createPost, clearPostErrors }) => {
+const CommentForm : React.FC<Props> = ({ userId, postId, replyId, errors, visible, closeModal, createComment, clearCommentErrors }) => {
     const [form] = Form.useForm();
     const formData = new FormData();
     const [imageState, setImageState] = useState('');
     const [loadingState, setLoadingState] = useState<boolean>(false);
-    const handleSubmit = async(values : NewPost) => {
+    const handleSubmit = async(values : FormValues) => {
         setLoadingState(true);
-        formData.append('title', values.title);
         formData.append('content', values.content);
         formData.append('UserID', String(userId));
-        formData.append('NotepadID', String(notepadId));
-        formData.append('image', imageState)
-        await createPost(formData);
+        formData.append('NotepadID', String(postId));
+        formData.append('ReplyID', String(replyId));
+        formData.append('image', imageState);
+        await createComment(formData);
         setLoadingState(false);
-        form.validateFields(['title'])
+        form.validateFields(['content'])
             .then(() => closeModal())
             .catch(() => null)
     }
 
     const waitForReset = () => (
         new Promise((resolve) => {
-            resolve(clearPostErrors());
+            resolve(clearCommentErrors());
         })
     );
 
@@ -77,14 +80,19 @@ const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, vi
             visible={visible}
             onOk={handleOk}
             onCancel={closeModal}
-            okText='Create Post'
+            okText='Create Comment'
             okButtonProps={{loading: loadingState}}>
-            <Typography.Title level={3} style={{ color: '#fff', marginBottom: '1em' }}>{`Post to #${notepadName}`}</Typography.Title>
+                {
+                    replyId && 
+                    <Typography.Title level={3} style={{ color: '#fff', marginBottom: '1em' }}>
+                        {`Reply to >>${replyId}`}
+                    </Typography.Title>
+                }
             <Form
                 {...layout}
-                className='post-form'
+                className='comment-form'
                 form={form}
-                name="post"
+                name="comment"
                 onFinish={handleSubmit}
                 initialValues={{
                     name: '',
@@ -93,11 +101,11 @@ const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, vi
                 scrollToFirstError
             >
                 <Form.Item
-                    name="title"
-                    label='Post title'
+                    name="content"
+                    label='Comment content'
                     colon={false}
                     rules={[{ required: true, 
-                        message: 'Please input your post title!', 
+                        message: 'Please input your post content!', 
                         whitespace: true },
                         () => ({
                             validator() {
@@ -112,19 +120,8 @@ const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, vi
                 >
                     <Input style={{ border: '1px solid #888888' }} />
                 </Form.Item>
-                <Form.Item
-                    name="content"
-                    label='Post content'
-                    colon={false}
-                    rules={[{ required: true, 
-                        message: 'Please input your post content!', 
-                        whitespace: true },
-                    ]}
-                >
-                    <Input.TextArea style={{ border: '1px solid #888888' }} />
-                </Form.Item>
                 <Form.Item name="image"
-                    label="Post image"
+                    label="Comment image"
                     colon={false}
                     getValueFromEvent={imageFile}>
                         <input type="file" />
@@ -136,12 +133,12 @@ const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, vi
 
 const mapStateToProps = (state : RootState) => ({
     userId: state.session.currentUserId,
-    errors: state.errors.post
+    errors: state.errors.comment
 });
 
 const mapDispatchToProps = ({
-    createPost,
-    clearPostErrors
+    createComment,
+    clearCommentErrors
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
