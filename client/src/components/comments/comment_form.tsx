@@ -38,7 +38,7 @@ const CommentForm : React.FC<Props> = ({ userId, postId, replyId, errors, visibl
         setLoadingState(true);
         formData.append('content', values.content);
         formData.append('UserID', String(userId));
-        formData.append('NotepadID', String(postId));
+        formData.append('PostID', String(postId));
         formData.append('ReplyID', String(replyId));
         formData.append('image', imageState);
         await createComment(formData);

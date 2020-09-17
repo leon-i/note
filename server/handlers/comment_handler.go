@@ -24,26 +24,33 @@ func CreateComment(c *fiber.Ctx) {
 		return
 	}
 
-	comment := models.Comment{
+	comment := &models.Comment{
 		Content: newComment.Content,
 		UserID: newComment.UserID,
 		PostID: newComment.PostID,
 	}
 
 	if err := db.DBConn.Create(&comment).Error; err != nil {
+		fmt.Println(err.Error())
+		fmt.Println("--Create comment error--")
 		c.Status(500).Send(err)
 		return
 	}
 
-	if err := db.DBConn.Find(&parent, newComment.ReplyID); err != nil {
+	if err := db.DBConn.Find(&parent, newComment.ReplyID).Error; err != nil {
+		fmt.Println(err.Error())
+		fmt.Println("--Find parent error--")
 		c.Status(500).Send(err)
 	}
 
 	if parent.Content != "" {
-		err := db.DBConn.Model(&parent).Association("Replies").Append(&comment)
+		err := db.DBConn.Model(&parent).
+			Association("Replies").
+			Append([]models.Comment{*parent})
 
 		if err != nil {
 			fmt.Println(err.Error())
+			fmt.Println("--Attach reply error--")
 			return
 		}
 	}
