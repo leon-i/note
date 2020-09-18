@@ -52,7 +52,9 @@ export interface NewPost {
 export interface Comment {
     ID: number;
     content: string;
+    imageURL: string;
     author_id: number;
     author: User;
     post_id: number;
+    replies: Comment[];
 }

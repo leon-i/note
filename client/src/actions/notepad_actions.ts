@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { Notepad, NewNotepad, Post } from '../interfaces';
+import { Notepad, NewNotepad } from '../interfaces';
 import * as NotepadAPIUtil from '../util/notepad_util';
 import { receivePosts } from './post_actions';
 
@@ -53,7 +53,7 @@ export const fetchNotepads : any = () => (dispatch : Dispatch) =>
     NotepadAPIUtil.fetchNotepads().then(res => dispatch(receiveNotepads(res.data)))
 
 export const fetchNotepad : any = (id : number) => (dispatch : Dispatch) =>
-    NotepadAPIUtil.fetchNotepad(id).then(res => { 
+    NotepadAPIUtil.fetchNotepad(id).then(res => {
         dispatch(receiveNotepad(res.data.notepad))
         dispatch(receivePosts(res.data.posts))
     })
@@ -67,3 +67,6 @@ export const createNotepad : any = (newNotepad : NewNotepad) => (dispatch : Disp
 
 export const deleteNotepad = (id : number) => (dispatch : Dispatch) =>
     NotepadAPIUtil.deleteNotepad(id).then(res => dispatch(receiveNotepad(res.data.data)))
+
+export const searchNotepads = (query : string) => (dispatch : Dispatch) =>
+    NotepadAPIUtil.searchNotepads(query).then(res => dispatch(receiveNotepads(res.data)))

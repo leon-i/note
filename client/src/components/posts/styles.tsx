@@ -1,19 +1,10 @@
-.post-index {
-    width: 100%;
-    padding: 24px 32px;
+import styled from "styled-components";
+import {Card} from "antd";
 
-    .notepad-header {
-        display: flex;
-        justify-content: space-between;
-        padding-right: 48px;
-
-        h2 {
-            color: #fff !important;
-        }
-    }
-
-    .post-item {
+export const PostCard = styled(Card)`
         .post-image {
+            min-width: 200px;
+            max-width: 200px;
             margin-right: 16px;
             background-color: #000000;
             border-radius: 4px;
@@ -23,7 +14,7 @@
                 object-fit: contain;
             }
         }
-
+        
         .post-title {
             display: flex;
             flex-direction: row;
@@ -34,13 +25,18 @@
                 margin-right: 4px;
             }
         }
-
+        
+        .ant-card-head {
+            min-height: 0px;
+        }
+        
         .ant-card-head-title {
             font-size: 1.25em;
-            padding: 4px 0;
+            padding: 8px 0;
+            color: #fff;
 
             h4 {
-                color: #fff !important;
+                color: #fff;
                 padding: 0;
                 margin: 0;
             }
@@ -48,23 +44,20 @@
 
         .ant-card-body {
             min-height: 150px;
+            color: #fff;
 
             .post-body {
                 display: flex;
                 flex-direction: row;
             }
         }
-    }
-
-    .comments {
-        padding: 0 8px;
-        .ant-card-head {
-            min-height: 0;
-
-            .ant-card-head-title {
-                color: #fff !important;
-                padding: 4px 0;
+        
+        .ant-card-actions > li > span a:not(.ant-btn) {
+            color: #fff;
+            
+            &:hover {
+                color: #1890ff;
             }
-        }
+        
     }
-}
+`;

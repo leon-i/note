@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber"
 	"github.com/leon-i/note/db"
 	"github.com/leon-i/note/models"
@@ -10,11 +11,6 @@ import (
 
 func GetNotepads(c *fiber.Ctx) {
 	var notepads []models.Notepad
-
-	// if err := db.DBConn.Find(&notepads).Error; err != nil {
-	// 	c.Status(404).Send(err)
-	// 	return
-	// }
 
 	err := db.DBConn.Table("notepads").
 		Select("notepads.*").
@@ -40,7 +36,7 @@ func GetNotepad(c *fiber.Ctx) {
 
 	err := db.DBConn.Preload("Posts", func(db *gorm.DB) *gorm.DB {
 		return db.Order("posts.updated_at DESC").
-			Limit(3)
+			Limit(8)
 	}).
 		Preload("Posts.User", func(db *gorm.DB) *gorm.DB {
 			return db.Select("users.ID, users.Username")
@@ -113,4 +109,18 @@ func DeleteNotepad(c *fiber.Ctx) {
 	}
 
 	c.Send("Notepad successfully deleted.")
+}
+
+func SearchNotepads(c *fiber.Ctx) {
+	var notepads []models.Notepad
+	query := "%" + c.Params("query") + "%"
+	fmt.Println(query)
+
+	if err := db.DBConn.Where("LOWER(name) LIKE ?", query).Find(&notepads).Error; err != nil {
+		fmt.Println(err.Error())
+		c.Status(500).Send(err)
+		return
+	}
+
+	c.JSON(notepads)
 }

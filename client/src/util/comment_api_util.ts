@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { NewPost } from '../interfaces';
 
 export const fetchComments = () => (
     axios.get(`/api/comments`)

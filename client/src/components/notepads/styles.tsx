@@ -1,6 +1,13 @@
-.notepad-index {
+import styled from "styled-components";
+import {Space} from "antd";
+
+export const NotepadIndexWrapper = styled(Space)`
     width: 100%;
     padding: 24px 32px;
+    
+    h1 {
+        color: #fff;
+    }
 
     .ant-card {
         transition: ease-in-out 1s;
@@ -17,4 +24,4 @@
     .loading-icon {
         margin-top: 10%;
     }
-}
+`

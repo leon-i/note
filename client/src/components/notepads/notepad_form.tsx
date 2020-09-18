@@ -10,6 +10,7 @@ import {
     Input,
     Typography
 } from 'antd';
+import {FormWrapper} from "../../styles/form";
 
 interface Props {
     user_id: number | null;
@@ -63,50 +64,52 @@ clearNotepadErrors }) => {
             onCancel={closeModal}
             okText='Create Notepad'>
             <Typography.Title level={3} style={{ color: '#fff', marginBottom: '1em' }}>Create a Notepad</Typography.Title>
-            <Form
-                {...layout}
-                className='notepad-form'
-                form={form}
-                name="notepad"
-                onFinish={handleSubmit}
-                initialValues={{
-                    name: '',
-                    description: ''
-                }}
-                scrollToFirstError
-            >
-                <Form.Item
-                    name="name"
-                    label='Notepad name'
-                    colon={false}
-                    rules={[{ required: true, 
-                        message: 'Please input your notepad name!', 
-                        whitespace: true },
-                        () => ({
-                            validator() {
-                            if (errors) {
-                                return Promise.reject(errors);
-                            }
-    
-                            return Promise.resolve();
-                            },
-                        }),
-                    ]}
+            <FormWrapper>
+                <Form
+                    {...layout}
+                    className='notepad-form'
+                    form={form}
+                    name="notepad"
+                    onFinish={handleSubmit}
+                    initialValues={{
+                        name: '',
+                        description: ''
+                    }}
+                    scrollToFirstError
                 >
-                    <Input style={{ border: '1px solid #888888' }} />
-                </Form.Item>
-                <Form.Item
-                    name="description"
-                    label='Notepad description'
-                    colon={false}
-                    rules={[{ required: true, 
-                        message: 'Please input your notepad description!', 
-                        whitespace: true },
-                    ]}
-                >
-                    <Input.TextArea style={{ border: '1px solid #888888' }} />
-                </Form.Item>
-            </Form> 
+                    <Form.Item
+                        name="name"
+                        label='Notepad name'
+                        colon={false}
+                        rules={[{ required: true,
+                            message: 'Please input your notepad name!',
+                            whitespace: true },
+                            () => ({
+                                validator() {
+                                if (errors) {
+                                    return Promise.reject(errors);
+                                }
+
+                                return Promise.resolve();
+                                },
+                            }),
+                        ]}
+                    >
+                        <Input style={{ border: '1px solid #888888' }} />
+                    </Form.Item>
+                    <Form.Item
+                        name="description"
+                        label='Notepad description'
+                        colon={false}
+                        rules={[{ required: true,
+                            message: 'Please input your notepad description!',
+                            whitespace: true },
+                        ]}
+                    >
+                        <Input.TextArea style={{ border: '1px solid #888888' }} />
+                    </Form.Item>
+                </Form>
+            </FormWrapper>
         </Modal>
     )
 }

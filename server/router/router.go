@@ -21,6 +21,7 @@ func SetupRoutes(server *fiber.App) {
 	notepads := api.Group("/notepads")
 	notepads.Get("/", handlers.GetNotepads)
 	notepads.Get("/:id", handlers.GetNotepad)
+	notepads.Get("/search/:query", handlers.SearchNotepads)
 	notepads.Post("/", middleware.ProtectedRoute(), handlers.CreateNotepad)
 	notepads.Delete("/:id", middleware.ProtectedRoute(), handlers.DeleteNotepad)
 

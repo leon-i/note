@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
-import { Post, NewPost } from '../interfaces';
+import { Post } from '../interfaces';
+import { receiveComments } from "./comment_actions";
 import * as PostAPIUtil from '../util/post_api_util';
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
@@ -63,7 +64,10 @@ export const fetchPosts : any = () => (dispatch : Dispatch) =>
     PostAPIUtil.fetchPosts().then(res => dispatch(receivePosts(res.data)))
 
 export const fetchPost : any = (id : number) => (dispatch : Dispatch) =>
-    PostAPIUtil.fetchPost(id).then(res => dispatch(receiveCurrentPost(res.data)))
+    PostAPIUtil.fetchPost(id).then(res => {
+        dispatch(receiveCurrentPost(res.data.post))
+        dispatch(receiveComments(res.data.comments))
+    })
 
 export const createPost : any = (newPost : FormData) => (dispatch : Dispatch) =>
     PostAPIUtil.createPost(newPost).then(res => dispatch(receivePost(res.data)))

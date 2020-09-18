@@ -16,3 +16,7 @@ export const createNotepad = (data : NewNotepad) => (
 export const deleteNotepad = (id : number) => (
     axios.delete(`/api/notepads/${id}`)
 )
+
+export const searchNotepads = (query : string) => (
+    axios.get(`/api/notepads/${query}`)
+)

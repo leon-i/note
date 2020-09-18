@@ -4,7 +4,8 @@ import { RootState } from '../../reducers/root_reducer';
 import { NotepadState } from '../../reducers/entities/entities_reducer';
 import { Notepad } from '../../interfaces';
 import { fetchNotepads } from '../../actions/notepad_actions';
-import { Space, Row, Col, Typography } from 'antd';
+import { Row, Col, Typography } from 'antd';
+import { NotepadIndexWrapper } from "./styles";
 
 import NotepadIndexItem from './notepad_index_item';
 
@@ -43,14 +44,14 @@ const NotepadIndex : React.FC<Props> = ({ notepads, fetchNotepads }) => {
     const notepadItems = notepadConvert(notepads, fetchingState);
 
     return (
-        <Space className='notepad-index' direction='vertical'>
+        <NotepadIndexWrapper direction='vertical'>
             <Row>
                 <Col span={24}>
                     <Typography.Title level={1}>Notepads</Typography.Title>
                 </Col>
             </Row>
             { notepadItems }
-        </Space>
+        </NotepadIndexWrapper>
     )
 }
 

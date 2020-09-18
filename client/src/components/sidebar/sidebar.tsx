@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import NotepadForm from '../notepads/notepad_form';
+import { Logo } from './styles';
 
 const Sidebar = () => {
     const [modalState, setModalState] = useState<boolean>(false);
     
     return (
         <>
-            <h2 className='logo'>note</h2>
+            <Logo>
+                <Link to='/'>
+                    note
+                </Link>
+            </Logo>
             <Menu
             mode="inline"
             theme='dark'

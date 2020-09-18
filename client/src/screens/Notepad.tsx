@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { withRouter, RouteComponentProps, Route } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { RootState } from '../reducers/root_reducer';
 import { NotepadState } from '../reducers/entities/entities_reducer';
@@ -8,7 +8,23 @@ import { Notepad, Post } from '../interfaces';
 import PostItem from '../components/posts/post';
 import PostForm from '../components/posts/post_form';
 import LoadingPost from '../components/posts/loading_post';
-import { Space, Button, Row, Col, Typography } from 'antd';
+import { Space, Button, Typography } from 'antd';
+import styled from "styled-components";
+
+const NotepadWrapper = styled(Space)`
+    width: 100%;
+    padding: 24px 32px;
+
+    .notepad-header {
+        display: flex;
+        justify-content: space-between;
+        padding-right: 48px;
+
+        h2 {
+            color: #fff;
+        }
+    }
+`;
 
 type NotepadCollection = NotepadState & { [id : string]: Notepad };
 
@@ -20,9 +36,11 @@ interface Props {
 
 type TParams =  { id: string };
 
-const postsConvert = (posts : Post[], loading : boolean) => (
+const postsConvert = (posts : Post[], loading : boolean, newComment : () => void) => (
     posts.map((post : Post, idx : number) => (
-        <PostItem post={post} loading={loading} key={idx} />
+        <PostItem post={post} loading={loading}
+                  key={idx}
+                  withPreview={true} />
     ))
 )
 
@@ -44,17 +62,17 @@ const NotepadScreen : React.FC<Props & RouteComponentProps<TParams>> = ({ match,
 
     return (
         <>
-            <Space className='post-index' direction="vertical" size="large">
+            <NotepadWrapper direction="vertical" size="large">
                 <header className="notepad-header">
                     <Typography.Title level={2}>{`#${headerTitle}`}</Typography.Title>
                     <Button onClick={() => setModalState(true)}>Create Post</Button>
                 </header>
                 {
                     (!fetchingState && notepads[0] && posts) ?
-                    postsConvert(posts, fetchingState) : 
+                    postsConvert(posts, fetchingState, () => setModalState(true)) :
                     <LoadingPost />
                 }
-            </Space>
+            </NotepadWrapper>
             <PostForm notepadId={Number(match.params.id)} 
                 notepadName={notepads[0] ? notepads[0].name : ''}
                 visible={modalState} 

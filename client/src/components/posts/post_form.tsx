@@ -9,6 +9,7 @@ import {
     Input,
     Typography,
 } from 'antd';
+import {FormWrapper} from "../../styles/form";
 
 interface Props {
     userId: number | null;
@@ -79,57 +80,61 @@ const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, vi
             onCancel={closeModal}
             okText='Create Post'
             okButtonProps={{loading: loadingState}}>
-            <Typography.Title level={3} style={{ color: '#fff', marginBottom: '1em' }}>{`Post to #${notepadName}`}</Typography.Title>
-            <Form
-                {...layout}
-                className='post-form'
-                form={form}
-                name="post"
-                onFinish={handleSubmit}
-                initialValues={{
-                    name: '',
-                    description: ''
-                }}
-                scrollToFirstError
-            >
-                <Form.Item
-                    name="title"
-                    label='Post title'
-                    colon={false}
-                    rules={[{ required: true, 
-                        message: 'Please input your post title!', 
-                        whitespace: true },
-                        () => ({
-                            validator() {
-                            if (errors) {
-                                return Promise.reject(errors);
-                            }
-    
-                            return Promise.resolve();
-                            },
-                        }),
-                    ]}
+            <Typography.Title level={3} style={{ color: '#fff', marginBottom: '1em' }}>
+                {`Post to #${notepadName}`}
+            </Typography.Title>
+            <FormWrapper>
+                <Form
+                    {...layout}
+                    className='post-form'
+                    form={form}
+                    name="post"
+                    onFinish={handleSubmit}
+                    initialValues={{
+                        name: '',
+                        description: ''
+                    }}
+                    scrollToFirstError
                 >
-                    <Input style={{ border: '1px solid #888888' }} />
-                </Form.Item>
-                <Form.Item
-                    name="content"
-                    label='Post content'
-                    colon={false}
-                    rules={[{ required: true, 
-                        message: 'Please input your post content!', 
-                        whitespace: true },
-                    ]}
-                >
-                    <Input.TextArea style={{ border: '1px solid #888888' }} />
-                </Form.Item>
-                <Form.Item name="image"
-                    label="Post image"
-                    colon={false}
-                    getValueFromEvent={imageFile}>
-                        <input type="file" />
-                </Form.Item>
-            </Form> 
+                    <Form.Item
+                        name="title"
+                        label='Post title'
+                        colon={false}
+                        rules={[{ required: true,
+                            message: 'Please input your post title!',
+                            whitespace: true },
+                            () => ({
+                                validator() {
+                                if (errors) {
+                                    return Promise.reject(errors);
+                                }
+
+                                return Promise.resolve();
+                                },
+                            }),
+                        ]}
+                    >
+                        <Input style={{ border: '1px solid #888888' }} />
+                    </Form.Item>
+                    <Form.Item
+                        name="content"
+                        label='Post content'
+                        colon={false}
+                        rules={[{ required: true,
+                            message: 'Please input your post content!',
+                            whitespace: true },
+                        ]}
+                    >
+                        <Input.TextArea style={{ border: '1px solid #888888' }} />
+                    </Form.Item>
+                    <Form.Item name="image"
+                        label="Post image"
+                        colon={false}
+                        getValueFromEvent={imageFile}>
+                            <input type="file" />
+                    </Form.Item>
+                </Form>
+            </FormWrapper>
         </Modal>
     )
 }

@@ -1,35 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Post, Comment } from '../../interfaces';
-import { Row, Col, Card, Typography, Image } from 'antd';
+import { Post } from '../../interfaces';
+import { Row, Col, Typography, Image, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { PostCard } from "./styles";
+import CommentsPreview from "../comments/comments_preview";
 
 interface Props {
     post: Post;
     loading: boolean;
+    withPreview: boolean;
+    newComment?: () => void;
 }
 
-const commentPreview = (comments : Comment[], loading : boolean) => (
-    comments.slice(0, 2).map((comment : Comment, idx : number) => (
-        <Row key={idx}>
-            <Col span={24}>
-                <Card title={comment.author.username} 
-                    style={{ maxHeight:'150px', color: '#fff'}}
-                    loading={loading}>
-                    {comment.content}
-                </Card>
-            </Col>
-        </Row>
-    ))
-)
-
-const PostItem : React.FC<Props> = ({ post, loading }) => (
-    <Row>
-        <Col span={16}>
-            <Card className="post-item" loading={loading} title={
+const PostItem : React.FC<Props> = ({ post, loading , withPreview, newComment}) => (
+    <Row justify={withPreview ? 'start' : 'center'}>
+        <Col span={withPreview ? 16 : 20}>
+            <PostCard loading={loading} title={
                 !loading &&
                 <div className='post-title'>
-                    <Link to={`${post.notepad_id}/Posts/${post.ID}`}>
+                    <Link to={withPreview ?
+                        `${post.notepad_id}/Posts/${post.ID}` :
+                        '#'
+                    }>
                         {post.title}
                     </Link>
                     <Typography.Title level={4}>
@@ -37,11 +30,15 @@ const PostItem : React.FC<Props> = ({ post, loading }) => (
                         {post.author.username}
                     </Typography.Title>
                 </div>
-            } style={{ color: '#fff' }}
+            }
             actions={[
-                <Link to={`${post.notepad_id}/Posts/${post.ID}`}>
-                    {`${post.comments ? post.comments.length : 0} Comments`}
-                </Link>
+                withPreview ?(
+                    <Link to={`${post.notepad_id}/Posts/${post.ID}`}>
+                        {`${post.comments ? post.comments.length : 0} Comments`}
+                    </Link>
+                ) : (
+                    <Button type='text' onClick={newComment}>New Comment</Button>
+                )
             ]}>
                 <section className='post-body'>
                     {
@@ -54,14 +51,12 @@ const PostItem : React.FC<Props> = ({ post, loading }) => (
                     }
                     {post.content}
                 </section>
-            </Card>
+            </PostCard>
         </Col>
-        <Col className='comments' span={8}>
-            {
-                post.comments &&
-                commentPreview(post.comments, loading)
-            }
-        </Col>
+        {
+            withPreview &&
+            <CommentsPreview comments={post.comments} />
+        }
     </Row>
 )
 

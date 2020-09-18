@@ -36,6 +36,7 @@ func Connect() {
 	DBConn.Migrator().DropTable(&models.Notepad{})
 	DBConn.Migrator().DropTable(&models.Post{})
 	DBConn.Migrator().DropTable(&models.Comment{})
+	DBConn.Migrator().DropTable("comment_replies")
 
 	DBConn.AutoMigrate(&models.User{},
 		&models.Notepad{},

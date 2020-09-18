@@ -1,5 +1,4 @@
 import { RECEIVE_NOTEPADS, RECEIVE_NOTEPAD, NotepadActionTypes } from '../../actions/notepad_actions';
-import { Notepad } from '../../interfaces';
 
 export default (state=[], action : NotepadActionTypes) => {
     Object.freeze(state);

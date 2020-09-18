@@ -1,5 +1,4 @@
 import { RECEIVE_POSTS, RECEIVE_POST, RECEIVE_CURRENT_POST, PostActionTypes } from '../../actions/post_actions';
-import { Post } from '../../interfaces';
 
 export default (state=[], action : PostActionTypes) => {
     Object.freeze(state);

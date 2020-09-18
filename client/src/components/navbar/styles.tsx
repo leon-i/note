@@ -1,4 +1,6 @@
-.navbar {
+import styled from "styled-components";
+
+export const StyledNav = styled.nav`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -17,8 +19,12 @@
         flex-direction: row;
         align-items: center;
     }
+    
+    .ant-breadcrumb > span:last-child a {
+        color: #fff;
+    }
 
     .ant-breadcrumb-link a, .ant-breadcrumb-separator {
         font-size: 1.4em;
     }
-}
+`

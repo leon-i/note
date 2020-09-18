@@ -46,7 +46,7 @@ func CreateComment(c *fiber.Ctx) {
 	if parent.Content != "" {
 		err := db.DBConn.Model(&parent).
 			Association("Replies").
-			Append([]models.Comment{*parent})
+			Append([]models.Comment{*comment})
 
 		if err != nil {
 			fmt.Println(err.Error())
@@ -76,6 +76,12 @@ func CreateComment(c *fiber.Ctx) {
 			c.Status(500).Send(err)
 			return
 		}
+	}
+
+	if err := db.DBConn.Preload("User").
+		Find(&comment, comment.UserID).Error; err != nil {
+		c.Status(500).Send(err);
+		return
 	}
 
 	c.JSON(comment)

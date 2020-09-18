@@ -7,7 +7,6 @@ import { setAuthToken } from './util/user_api_util';
 import { logout } from './actions/user_actions';
 import { User } from './interfaces';
 import * as serviceWorker from './serviceWorker';
-import './styles/index.scss';
 import './index.css';
 
 document.addEventListener('DOMContentLoaded', () => {

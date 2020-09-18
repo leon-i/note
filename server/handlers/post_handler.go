@@ -33,10 +33,10 @@ func GetPost(c *fiber.Ctx) {
 	if err := db.DBConn.Preload("User", func(db *gorm.DB) *gorm.DB {
 		return db.Select("users.ID, users.username")
 	}).Preload("Comments").
+		Preload("Comments.Replies").
 		Preload("Comments.User", func(db *gorm.DB) *gorm.DB {
 			return db.Select("users.ID, users.username")
 		}).
-		Preload("Comments.Replies").
 		Find(&post, id).Error; err != nil {
 		c.Status(404).Send(err)
 		return
@@ -48,7 +48,13 @@ func GetPost(c *fiber.Ctx) {
 		return
 	}
 
-	c.JSON(post)
+	comments := post.Comments
+	post.Comments = nil
+
+	c.JSON(fiber.Map{
+		"post": post,
+		"comments": comments,
+	})
 }
 
 func CreatePost(c *fiber.Ctx) {
