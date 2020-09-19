@@ -53,8 +53,14 @@ export interface Comment {
     ID: number;
     content: string;
     imageURL: string;
+    replyTo: number;
     author_id: number;
     author: User;
     post_id: number;
     replies: Comment[];
+}
+
+export interface NewFavorite {
+    UserID: number;
+    NotepadID: number;
 }

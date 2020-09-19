@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NewNotepad } from '../interfaces';
+import { NewNotepad,NewFavorite } from '../interfaces';
 
 export const fetchNotepads = () => (
     axios.get('/api/notepads')

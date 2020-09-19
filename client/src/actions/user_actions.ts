@@ -13,7 +13,7 @@ interface ReceiveCurrentUserAction {
     payload: User
 };
 
-interface LogoutCurrentUserAction {
+export interface LogoutCurrentUserAction {
     type: typeof LOGOUT_USER
 };
 

@@ -28,6 +28,7 @@ func CreateComment(c *fiber.Ctx) {
 		Content: newComment.Content,
 		UserID: newComment.UserID,
 		PostID: newComment.PostID,
+		ReplyTo: newComment.ReplyID,
 	}
 
 	if err := db.DBConn.Create(&comment).Error; err != nil {
@@ -49,8 +50,7 @@ func CreateComment(c *fiber.Ctx) {
 			Append([]models.Comment{*comment})
 
 		if err != nil {
-			fmt.Println(err.Error())
-			fmt.Println("--Attach reply error--")
+			c.Status(500).Send(err)
 			return
 		}
 	}

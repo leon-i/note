@@ -125,12 +125,22 @@ export const CommentCard = styled(Card)`
     }
 `;
 
+export const CommentText = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+    a {
+        font-weight: bold;
+    }
+`
+
 export const RepliesList = styled.ul`
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     flex-wrap: wrap;
-    min-height: 18px;
+    min-height: 10px;
     margin-bottom: 0;
     
     a {

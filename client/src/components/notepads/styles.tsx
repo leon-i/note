@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Space} from "antd";
+import {Col, Space} from "antd";
 
 export const NotepadIndexWrapper = styled(Space)`
     width: 100%;
@@ -23,5 +23,18 @@ export const NotepadIndexWrapper = styled(Space)`
 
     .loading-icon {
         margin-top: 10%;
+    }
+`
+
+export const NotepadIndexItemWrapper = styled.div`
+    .notepad-index-item-title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        
+        .anticon {
+            color: #fff;
+        }
     }
 `

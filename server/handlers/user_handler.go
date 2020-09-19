@@ -134,3 +134,157 @@ func Login(c *fiber.Ctx) {
 	c.JSON(fiber.Map{"status": "success",
 		"message": "Success login", "data": token})
 }
+
+func GetFavorites(c *fiber.Ctx) {
+	id := c.Params("id")
+	var user models.User
+	var favorites []models.Notepad
+
+	if err := db.DBConn.Find(&user, id).Error; err != nil {
+		c.Status(500).JSON(fiber.Map{
+			"status": "error",
+			"message": "Error finding user",
+			"data": nil,
+		})
+		return
+	}
+
+	if user.Username == "" {
+		c.Status(404).JSON(fiber.Map{
+			"status": "error",
+			"message": "User not found",
+			"data": nil,
+		})
+		return
+	}
+
+	err := db.DBConn.Table("users").
+		Distinct("notepads.id").
+		Select("notepads.*").
+		Joins("INNER JOIN user_favorites ON user_favorites.user_id = ?", user.ID).
+		Joins("INNER JOIN notepads ON user_favorites.notepad_id = notepads.id").
+		Scan(&favorites).
+		Error
+
+	if err != nil {
+		c.Status(500).Send(err)
+		return
+	}
+
+	c.JSON(favorites)
+}
+
+func AddFavorite(c *fiber.Ctx) {
+	type FavoriteInput struct {
+		NotepadID	uint
+	}
+
+	userId := c.Params("id")
+
+	var newFav FavoriteInput
+	var user models.User
+
+	if err := c.BodyParser(&newFav); err != nil {
+		c.Status(500).Send(err)
+		return
+	}
+
+	if err := db.DBConn.Find(&user, userId).Error; err != nil {
+		c.Status(500).JSON(fiber.Map{
+			"status": "error",
+			"message": "Error finding user",
+			"data": nil,
+		})
+		return
+	}
+
+	if user.Username == "" {
+		c.Status(404).JSON(fiber.Map{
+			"status": "error",
+			"message": "User not found",
+			"data": nil,
+		})
+	}
+
+	notepad := &models.Notepad{}
+
+	if err := db.DBConn.Find(&notepad, newFav.NotepadID).Error; err != nil {
+		c.Status(500).JSON(fiber.Map{
+			"status": "error",
+			"message": "Error finding notepad",
+			"data": nil,
+		})
+	}
+
+	if notepad.Name == "" {
+		c.Status(404).JSON(fiber.Map{
+			"status": "error",
+			"message": "Notepad not found",
+			"data": nil,
+		})
+		return
+	}
+
+	err := db.DBConn.Model(&user).
+		Association("Favorites").
+		Append([]models.Notepad{*notepad})
+
+	if err != nil {
+		c.Status(500).Send(err)
+	}
+
+	c.JSON(notepad)
+}
+
+func RemoveFavorite(c *fiber.Ctx) {
+	userId := c.Params("id")
+	notepadId := c.Params("notepadId")
+
+	var user models.User
+
+	if err := db.DBConn.Find(&user, userId).Error; err != nil {
+		c.Status(500).JSON(fiber.Map{
+			"status": "error",
+			"message": "Error finding user",
+			"data": nil,
+		})
+		return
+	}
+
+	if user.Username == "" {
+		c.Status(404).JSON(fiber.Map{
+			"status": "error",
+			"message": "User not found",
+			"data": nil,
+		})
+	}
+
+	var notepad models.Notepad
+
+	if err := db.DBConn.Find(&notepad, notepadId).Error; err != nil {
+		c.Status(500).JSON(fiber.Map{
+			"status": "error",
+			"message": "Error finding notepad",
+			"data": nil,
+		})
+	}
+
+	if notepad.Name == "" {
+		c.Status(404).JSON(fiber.Map{
+			"status": "error",
+			"message": "User not found",
+			"data": nil,
+		})
+	}
+
+	err := db.DBConn.Model(&user).
+		Association("Favorites").
+		Delete([]models.Notepad{notepad})
+
+	if err != nil {
+		c.Status(500).Send(err)
+		return
+	}
+
+	c.JSON(notepad)
+}

@@ -120,6 +120,25 @@ input, .ant-input-affix-wrapper, textarea {
     }
 }
 
+.ant-popover {
+    width: 100%;
+    max-width: 500px;
+    
+    .ant-popover-inner {
+        background: #5c5c5c;
+    }
+    
+    .ant-card {
+        max-width: 100%;
+        margin-bottom: 0;
+    }
+}
+
+.ant-popover-placement-top > .ant-popover-content > .ant-popover-arrow {
+    border-right-color: #5c5c5c;
+    border-bottom-color: #5c5c5c;
+}
+
 h1 {
     color: ${white};
 }

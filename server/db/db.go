@@ -37,6 +37,7 @@ func Connect() {
 	DBConn.Migrator().DropTable(&models.Post{})
 	DBConn.Migrator().DropTable(&models.Comment{})
 	DBConn.Migrator().DropTable("comment_replies")
+	DBConn.Migrator().DropTable("user_favorites")
 
 	DBConn.AutoMigrate(&models.User{},
 		&models.Notepad{},
@@ -94,7 +95,7 @@ func Seed() {
 	post11 := &models.Post{Title: "I like Frozen", Content: "Anyone else also like Frozen", UserID: jim.ID, NotepadID: movies.ID}
 	post12 := &models.Post{Title: "I like Super 8", Content: "Anyone else also like Super 8", UserID: fred.ID, NotepadID: movies.ID}
 	post13 := &models.Post{Title: "I like Candidate 1", Content: "Anyone else also like Candidate 1", UserID: bob.ID, NotepadID: politics.ID}
-	post14 := &models.Post{Title: "I like Super 8", Content: "Anyone else also like Super 8", UserID: joe.ID, NotepadID: politics.ID}
+	post14 := &models.Post{Title: "I like Candidate 2", Content: "Anyone else also like Candidate 2", UserID: joe.ID, NotepadID: politics.ID}
 	post15 := &models.Post{Title: "I like Meme 1", Content: "Anyone else also like Meme 1", UserID: jim.ID, NotepadID: memes.ID}
 	post16 := &models.Post{Title: "I like Meme 2", Content: "Anyone else also like Meme 2", UserID: fred.ID, NotepadID: memes.ID}
 	DBConn.Create(&post1)

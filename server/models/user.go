@@ -10,11 +10,12 @@ import (
 
 type User struct {
 	gorm.Model
-	Username string    `gorm:"unique_index;unique;not null" validate:"required,max=20,min=4" json:"username"`
-	Email    string    `gorm:"unique_index;unique;not null" validate:"required,email" json:"email"`
-	Password string    `gorm:"not null" validate:"required,min=6" json:"password"`
-	Posts    []Post    `json:"posts"`
-	Comments []Comment `json:"comments"`
+	Username 	string    	`gorm:"unique_index;unique;not null" validate:"required,max=20,min=4" json:"username"`
+	Email    	string    	`gorm:"unique_index;unique;not null" validate:"required,email" json:"email"`
+	Password 	string    	`gorm:"not null" validate:"required,min=6" json:"password"`
+	Favorites	[]Notepad	`gorm:"many2many:user_favorites;" json:"favorites"`
+	Posts    	[]Post    	`json:"posts"`
+	Comments 	[]Comment 	`json:"comments"`
 }
 
 func ValidateUser(user *User) map[string]string {

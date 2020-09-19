@@ -13,8 +13,11 @@ func SetupRoutes(server *fiber.App) {
 	users := api.Group("/users")
 	// users.Get("/")
 	users.Get("/:id", handlers.GetUser)
+	users.Get("/:id/favorite", handlers.GetFavorites)
 	users.Post("/register", handlers.Register)
 	users.Post("/login", handlers.Login)
+	users.Post("/:id/favorite", middleware.ProtectedRoute(), handlers.AddFavorite)
+	users.Delete("/:id/favorite/:notepadId", middleware.ProtectedRoute(), handlers.RemoveFavorite)
 	// api.Delete("/users/:id")
 
 	// Notepads
