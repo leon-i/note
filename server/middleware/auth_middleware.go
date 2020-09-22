@@ -21,9 +21,9 @@ func jwtError(c *fiber.Ctx, err error) {
 	fmt.Println(token)
 	if err.Error() == "Missing or malformed JWT" {
 		c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error",
-			"message": "Missing or malformed JWT", "data": nil})
+			"message": "Log in to perform this action", "data": nil})
 	} else {
 		c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error",
-			"message": "Invalid or expired JWT", "data": nil})
+			"message": "Your session has expired", "data": nil})
 	}
 }

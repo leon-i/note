@@ -131,7 +131,7 @@ const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, vi
                         label="Post image"
                         colon={false}
                         getValueFromEvent={imageFile}>
-                            <input type="file" />
+                            <input type="file" accept="image/*" />
                     </Form.Item>
                 </Form>
             </FormWrapper>

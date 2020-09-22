@@ -18,7 +18,7 @@ export const FavoritesMenuWrapper = styled.div`
     
     h4, h5 {
         color: #fff;
-        margin-left: 16px;
+        margin-left: 18px;
         margin-bottom: 0;
     }
     
@@ -27,6 +27,6 @@ export const FavoritesMenuWrapper = styled.div`
     }
     
     .ant-typography + h5.ant-typography {
-        margin-top: 0;
+        margin-top: 8px;
     }
 `

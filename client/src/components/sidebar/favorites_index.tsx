@@ -27,7 +27,7 @@ deleteFavorite}) => {
         }
 
         if (loggedIn) retrieveFavorites();
-    }, [loggedIn])
+    }, [loggedIn, getFavorites, userId])
     return (
         <FavoritesMenuWrapper>
             <Typography.Title level={4}>Favorites</Typography.Title>

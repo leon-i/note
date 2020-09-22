@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../reducers/root_reducer';
 import { createComment, clearCommentErrors } from '../../actions/comment_actions';
@@ -45,6 +45,7 @@ clearCommentErrors }) => {
     const formData = new FormData();
     const [imageState, setImageState] = useState('');
     const [loadingState, setLoadingState] = useState<boolean>(false);
+
     const handleSubmit = async(values : FormValues) => {
         setLoadingState(true);
         formData.append('content', values.content);
@@ -62,13 +63,11 @@ clearCommentErrors }) => {
             .catch(() => null)
     }
 
-    const waitForReset = () => (
-        new Promise((resolve) => {
-            resolve(clearCommentErrors());
-        })
-    );
-
     const handleOk = () => {
+        const waitForReset = () => new Promise((resolve) => {
+            resolve(clearCommentErrors())
+        })
+
         waitForReset().then(() => {
             form.submit();
         })
@@ -139,7 +138,7 @@ clearCommentErrors }) => {
                         label="Comment image"
                         colon={false}
                         getValueFromEvent={imageFile}>
-                            <input type="file" />
+                            <input type="file" accept="image/*" />
                     </Form.Item>
                 </Form>
             </FormWrapper>

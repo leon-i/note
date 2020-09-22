@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { Notepad, NewNotepad } from '../interfaces';
-import * as NotepadAPIUtil from '../util/notepad_util';
+import * as NotepadAPIUtil from '../util/notepad_api_util';
 import { receivePosts } from './post_actions';
 
 export const RECEIVE_NOTEPADS = 'RECEIVE_NOTEPADS';
