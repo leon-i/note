@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { RootState } from '../../reducers/root_reducer';
 import { createComment, clearCommentErrors } from '../../actions/comment_actions';
 import { fetchPost } from "../../actions/post_actions";
+import { handleOk, handleImageFile } from "../../util/form_util";
 import {
     Modal,
     Form,
     Input,
     Typography,
 } from 'antd';
-import {FormWrapper} from "../../styles/form";
+import { FormWrapper } from "../../styles/form";
 
 interface Props {
     userId: number | null;
@@ -40,7 +41,8 @@ visible,
 closeModal,
 createComment,
 fetchPost,
-clearCommentErrors }) => {
+clearCommentErrors,
+ }) => {
     const [form] = Form.useForm();
     const formData = new FormData();
     const [imageState, setImageState] = useState('');
@@ -63,35 +65,10 @@ clearCommentErrors }) => {
             .catch(() => null)
     }
 
-    const handleOk = () => {
-        const waitForReset = () => new Promise((resolve) => {
-            resolve(clearCommentErrors())
-        })
-
-        waitForReset().then(() => {
-            form.submit();
-        })
-    };
-
-    const imageFile = (e : any) => {
-        const file = e.target.files[0];
-
-        if (file) {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-
-            fileReader.onloadend = () => {
-                setImageState(file);
-            }
-        } else {
-            return setImageState('');
-        }
-    }
-
     return (
         <Modal
             visible={visible}
-            onOk={handleOk}
+            onOk={handleOk(clearCommentErrors, form)}
             onCancel={closeModal}
             okText='Create Comment'
             okButtonProps={{loading: loadingState}}>
@@ -137,7 +114,7 @@ clearCommentErrors }) => {
                     <Form.Item name="image"
                         label="Comment image"
                         colon={false}
-                        getValueFromEvent={imageFile}>
+                        getValueFromEvent={(e : any) => handleImageFile(e, setImageState)}>
                             <input type="file" accept="image/*" />
                     </Form.Item>
                 </Form>

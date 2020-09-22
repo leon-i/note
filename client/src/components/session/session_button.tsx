@@ -1,10 +1,12 @@
 import React, { useState, lazy, Suspense } from 'react';
 import { connect } from 'react-redux';
-import {
-    Form, Button
-} from 'antd';
-import Modal from 'antd/lib/modal/Modal';
 import { clearSessionErrors } from '../../actions/user_actions';
+import {handleOk} from "../../util/form_util";
+import {
+Form,
+Button,
+Modal
+} from 'antd';
 
 const RegisterForm = lazy(() => import('./register_form'));
 const LoginForm = lazy(() => import('./login_form'));
@@ -22,25 +24,12 @@ const SessionButton : React.FC<Props> = ({ formType, loadingState, setLoadingSta
     const [modalState, setModalState] = useState<boolean>(false);
 
     const isRegister = formType === 'register';
-    const modalButtonAction = isRegister ? registerForm.submit : loginForm.submit;
 
     const closeAndReset = () => {
         setModalState(false);
         registerForm.resetFields();
         loginForm.resetFields();
         clearSessionErrors();
-    };
-
-    const waitForReset = () => (
-        new Promise((resolve) => {
-            resolve(clearSessionErrors());
-        })
-    );
-
-    const handleOk = () => {
-        waitForReset().then(() => {
-            modalButtonAction();
-        })
     };
     
     return (
@@ -49,7 +38,7 @@ const SessionButton : React.FC<Props> = ({ formType, loadingState, setLoadingSta
             { formType }
         </Button>
         <Modal visible={modalState}
-            onOk={handleOk}
+            onOk={handleOk(clearSessionErrors, isRegister ? registerForm : loginForm)}
             onCancel={() => closeAndReset()}
             okText={isRegister ? 'Register' : 'Login'}
             okButtonProps={{loading: loadingState}}>
