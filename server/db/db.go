@@ -73,7 +73,7 @@ func Seed() {
 	movies := &models.Notepad{Name: "Movies", Description: "Talk about movies!"}
 	politics := &models.Notepad{Name: "Politics", Description: "Talk about politics!"}
 	memes := &models.Notepad{Name: "Memes", Description: "Talk about memes!"}
-	DBConn.Create(general)
+	DBConn.Create(&general)
 	DBConn.Create(&music)
 	DBConn.Create(&sports)
 	DBConn.Create(&games)
