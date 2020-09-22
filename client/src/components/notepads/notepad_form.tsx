@@ -4,13 +4,14 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RootState } from '../../reducers/root_reducer';
 import {  NewNotepad, Notepad } from '../../interfaces';
 import { createNotepad, clearNotepadErrors } from '../../actions/notepad_actions';
+import { handleOk } from "../../util/form_util";
 import {
     Modal,
     Form,
     Input,
     Typography
 } from 'antd';
-import {FormWrapper} from "../../styles/form";
+import { FormWrapper } from "../../styles/form";
 
 interface Props {
     user_id: number | null;
@@ -45,22 +46,10 @@ clearNotepadErrors }) => {
         });
     }
 
-    const waitForReset = () => (
-        new Promise((resolve) => {
-            resolve(clearNotepadErrors());
-        })
-    );
-
-    const handleOk = () => {
-        waitForReset().then(() => {
-            form.submit();
-        })
-    };
-
     return (
         <Modal
             visible={visible}
-            onOk={handleOk}
+            onOk={handleOk(clearNotepadErrors, form)}
             onCancel={closeModal}
             okText='Create Notepad'>
             <Typography.Title level={3} style={{ color: '#fff', marginBottom: '1em' }}>Create a Notepad</Typography.Title>

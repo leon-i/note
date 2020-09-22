@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { RootState } from '../../reducers/root_reducer';
 import {  NewPost } from '../../interfaces';
 import { createPost, clearPostErrors } from '../../actions/post_actions';
+import { handleOk, handleImageFile } from "../../util/form_util";
 import {
     Modal,
     Form,
     Input,
     Typography,
 } from 'antd';
-import {FormWrapper} from "../../styles/form";
+import { FormWrapper } from "../../styles/form";
 
 interface Props {
     userId: number | null;
@@ -32,6 +33,7 @@ const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, vi
     const formData = new FormData();
     const [imageState, setImageState] = useState('');
     const [loadingState, setLoadingState] = useState<boolean>(false);
+
     const handleSubmit = async(values : NewPost) => {
         setLoadingState(true);
         formData.append('title', values.title);
@@ -46,37 +48,10 @@ const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, vi
             .catch(() => null)
     }
 
-    const waitForReset = () => (
-        new Promise((resolve) => {
-            resolve(clearPostErrors());
-        })
-    );
-
-    const handleOk = () => {
-        waitForReset().then(() => {
-            form.submit();
-        })
-    };
-
-    const imageFile = (e : any) => {
-        const file = e.target.files[0];
-
-        if (file) {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-
-            fileReader.onloadend = () => {
-                setImageState(file);
-            }
-        } else {
-            return setImageState('');
-        }
-    }
-
     return (
         <Modal
             visible={visible}
-            onOk={handleOk}
+            onOk={handleOk(clearPostErrors, form)}
             onCancel={closeModal}
             okText='Create Post'
             okButtonProps={{loading: loadingState}}>
@@ -130,7 +105,7 @@ const PostForm : React.FC<Props> = ({ userId, notepadId, notepadName, errors, vi
                     <Form.Item name="image"
                         label="Post image"
                         colon={false}
-                        getValueFromEvent={imageFile}>
+                        getValueFromEvent={(e : any) => handleImageFile(e, setImageState)}>
                             <input type="file" accept="image/*" />
                     </Form.Item>
                 </Form>
