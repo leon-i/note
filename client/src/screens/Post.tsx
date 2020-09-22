@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { connect } from 'react-redux';
 import {withRouter, RouteComponentProps} from 'react-router-dom';
 import { Post, Comment } from '../interfaces';
 import { RootState } from '../reducers/root_reducer';
 import { fetchPost } from '../actions/post_actions';
-import CommentForm from '../components/comments/comment_form';
 import {Card} from 'antd';
 import styled from "styled-components";
 import PostItem from "../components/posts/post";
 import CommentItem from '../components/comments/comment';
+
+const CommentForm = React.lazy(() => import('../components/comments/comment_form'));
 
 const PostWrapper = styled.div`
     display: flex;
@@ -91,17 +92,19 @@ const PostDisplay : React.FC<Props & RouteComponentProps<TParams>> = ({ post, co
                               newComment={() => setModalState(true)} />
                     <div className='comments-index'>
                         {
-                            comments?.length > 0 &&
+                            !fetchingState &&
                             commentsConvert(comments, handleReply)
                         }
                     </div>
-                        <CommentForm postId={post.ID} 
-                            replyId={replyState} 
-                            visible={modalState} 
-                            closeModal={() => {
-                                setReplyState(null);
-                                setModalState(false);
-                            }}/>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <CommentForm postId={post.ID}
+                                replyId={replyState}
+                                visible={modalState}
+                                closeModal={() => {
+                                    setReplyState(null);
+                                    setModalState(false);
+                                }}/>
+                        </Suspense>
                     </>
                 )
             }

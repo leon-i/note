@@ -8,6 +8,7 @@ import { Notepad, Post } from '../interfaces';
 import PostItem from '../components/posts/post';
 import PostForm from '../components/posts/post_form';
 import LoadingPost from '../components/posts/loading_post';
+import FavoriteButton from "../components/notepads/favorite_button";
 import { Space, Button, Typography } from 'antd';
 import styled from "styled-components";
 
@@ -22,6 +23,11 @@ const NotepadWrapper = styled(Space)`
 
         h2 {
             color: #fff;
+            
+            svg {
+                font-size: 0.7em;
+                margin: 0 0 2px 12px;
+            }
         }
     }
 `;
@@ -64,7 +70,13 @@ const NotepadScreen : React.FC<Props & RouteComponentProps<TParams>> = ({ match,
         <>
             <NotepadWrapper direction="vertical" size="large">
                 <header className="notepad-header">
-                    <Typography.Title level={2}>{`#${headerTitle}`}</Typography.Title>
+                    <Typography.Title level={2}>
+                        {`#${headerTitle}`}
+                        {
+                            !fetchingState &&
+                            <FavoriteButton notepadId={notepads[0] && notepads[0].ID} />
+                        }
+                    </Typography.Title>
                     <Button onClick={() => setModalState(true)}>Create Post</Button>
                 </header>
                 {
