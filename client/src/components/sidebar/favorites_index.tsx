@@ -5,7 +5,8 @@ import {getFavorites, deleteFavorite} from "../../actions/favorite_actions";
 import {RootState} from "../../reducers/root_reducer";
 import {FavoriteState} from "../../reducers/entities/entities_reducer";
 import {Notepad} from "../../interfaces";
-import {Menu} from "antd";
+import {FavoritesMenuWrapper} from "./styles";
+import {Menu, Typography} from 'antd';
 
 interface Props {
     loggedIn: boolean | null;
@@ -26,24 +27,31 @@ deleteFavorite}) => {
         }
 
         if (loggedIn) retrieveFavorites();
-    }, [loggedIn])
+    }, [loggedIn, getFavorites, userId])
     return (
-        <Menu
-            mode="inline"
-            theme='dark'
-            selectable={false}
-            style={{ borderRight: 0 }}
-        >
+        <FavoritesMenuWrapper>
+            <Typography.Title level={4}>Favorites</Typography.Title>
             {
-                Object.values(favorites).map((favorite : Notepad) => (
-                    <Menu.Item>
-                        <Link to={`/notepads/${favorite.ID}`}>
-                            {favorite.name}
-                        </Link>
-                    </Menu.Item>
-                ))
+                !loggedIn &&
+                <Typography.Title level={5}>Sign up to favorite notepads!</Typography.Title>
             }
-        </Menu>
+            <Menu
+                mode="inline"
+                theme='dark'
+                selectable={false}
+                style={{ borderRight: 0 }}
+            >
+                {
+                    Object.values(favorites).map((favorite : Notepad) => (
+                        <Menu.Item>
+                            <Link to={`/notepads/${favorite.ID}`}>
+                                {`#${favorite.name}`}
+                            </Link>
+                        </Menu.Item>
+                    ))
+                }
+            </Menu>
+        </FavoritesMenuWrapper>
     )
 }
 

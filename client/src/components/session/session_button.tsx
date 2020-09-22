@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { connect } from 'react-redux';
 import {
     Form, Button
 } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
-import RegisterForm from './register_form';
-import LoginForm from './login_form';
 import { clearSessionErrors } from '../../actions/user_actions';
+
+const RegisterForm = lazy(() => import('./register_form'));
+const LoginForm = lazy(() => import('./login_form'));
 
 interface Props {
     formType: string;
@@ -52,6 +53,7 @@ const SessionButton : React.FC<Props> = ({ formType, loadingState, setLoadingSta
             onCancel={() => closeAndReset()}
             okText={isRegister ? 'Register' : 'Login'}
             okButtonProps={{loading: loadingState}}>
+            <Suspense fallback={<div>Loading...</div>}>
                 {
                     isRegister ? (
                         <RegisterForm form={registerForm} setLoadingState={setLoadingState} />
@@ -59,6 +61,7 @@ const SessionButton : React.FC<Props> = ({ formType, loadingState, setLoadingSta
                         <LoginForm form={loginForm} setLoadingState={setLoadingState} />
                     )
                 }
+            </Suspense>
         </Modal>
         </>
     );

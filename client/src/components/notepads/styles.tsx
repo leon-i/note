@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Col, Space} from "antd";
+import {Space} from "antd";
 
 export const NotepadIndexWrapper = styled(Space)`
     width: 100%;
