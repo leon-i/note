@@ -30,6 +30,7 @@
 * **Posts**  
     * Users can create posts, which can be text-only or include an image or gif  
     * *Planned* - search for individual posts by name/user within a notepad  
+    * *Planned* - pagination for retrieved posts
 * **Comments**  
     * Users can comment directly to a post or reply to another comment  
     * Replying to a comment adds an anchor-link reference to the parent comment as well as the reply  
