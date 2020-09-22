@@ -7,6 +7,8 @@ import { Logo } from './styles';
 
 const NotepadForm = lazy(() => import('../notepads/notepad_form'));
 
+// change to drawer on mobile
+
 const Sidebar = () => {
     const [modalState, setModalState] = useState<boolean>(false);
     
