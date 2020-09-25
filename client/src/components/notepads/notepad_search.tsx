@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useWindowSize } from "../../hooks/useWindowSize";
 import { AutoComplete, Input } from 'antd';
 import { Notepad } from '../../interfaces';
 import styled from "styled-components";
@@ -34,7 +35,15 @@ const createOption = (notepad : Notepad) => {
 
 const NotepadSearch : React.FC<RouteComponentProps> = ({ history }) => {
     const [options, setOptions] = useState<{label : string, value : number | string}[]>([]);
-    const [value, setValue] = useState<string>('')
+    const [value, setValue] = useState<string>('');
+    const [width] = useWindowSize();
+    const searchStyle = width <= 576 ? {
+        width: '250px',
+        marginLeft: '40px'
+    } : {
+        width: '400px'
+    };
+
     const onSearch = (searchText: string) => {
         fetch(`/api/notepads/search/${searchText.toLowerCase()}`)
             .then(res => res.json())
@@ -60,7 +69,7 @@ const NotepadSearch : React.FC<RouteComponentProps> = ({ history }) => {
 
     return (
         <AutoCompleteWrapper>
-            <AutoComplete style={{width: 400}} options={options}
+            <AutoComplete style={searchStyle} options={options}
                           value={value}
                           onChange={(data : string) => setValue(data)}
                           onSearch={onSearch}

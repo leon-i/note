@@ -17,7 +17,14 @@ const App : React.FC = () => {
       <ThemeProvider theme={theme}>
           <GlobalStyle />
         <Layout>
-          <Sider>
+          <Sider breakpoint='sm'
+                 collapsedWidth='0'
+                 zeroWidthTriggerStyle={{
+                     background: '#1890ff',
+                     top: '48px',
+                     right: '-50px',
+                     width: '50px'
+                 }} >
             <Sidebar />
           </Sider>
           <Layout>

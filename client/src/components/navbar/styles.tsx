@@ -27,4 +27,10 @@ export const StyledNav = styled.nav`
     .ant-breadcrumb-link a, .ant-breadcrumb-separator {
         font-size: 1.4em;
     }
+    
+    @media (max-width: 576px) {
+        .session-btns {
+            display: none;
+        }
+    }
 `

@@ -28,6 +28,10 @@ export const GlobalStyle = createGlobalStyle`
 .ant-layout-header {
     padding-left: 32px;
     background: ${darkLayer1};
+    
+    @media (max-width: 576px) {
+        display: flex;
+    }
 }
 
 .ant-modal-content {
@@ -117,6 +121,12 @@ input, .ant-input-affix-wrapper, textarea {
                 color: #1890ff;
             }
         }
+    }
+    
+    @media (max-width: 576px) {
+        position: absolute;
+        height: 100%;
+        z-index: 100;
     }
 }
 
