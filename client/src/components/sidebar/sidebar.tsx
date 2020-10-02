@@ -1,16 +1,23 @@
 import React, { useState, lazy, Suspense } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import FavoritesIndex from "./favorites_index";
+import SessionButton from "../session/session_button";
 import { Logo } from './styles';
+import {RootState} from "../../reducers/root_reducer";
 
 const NotepadForm = lazy(() => import('../notepads/notepad_form'));
 
-// change to drawer on mobile
+interface Props {
+    isMobile: boolean;
+    isAuthenticated: boolean;
+}
 
-const Sidebar = () => {
+const Sidebar : React.FC<Props> = ({ isMobile, isAuthenticated }) => {
     const [modalState, setModalState] = useState<boolean>(false);
+    const [loadingState, setLoadingState] = useState<boolean>(false);
     
     return (
         <>
@@ -19,12 +26,28 @@ const Sidebar = () => {
                     note
                 </Link>
             </Logo>
+            {
+                (isMobile && !isAuthenticated) &&
+                <div style={{ display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    padding: '0 16px',
+                    margin: '12px 0'}}>
+                    <SessionButton formType={'register'}
+                                   loadingState={loadingState}
+                                   setLoadingState={setLoadingState} />
+                    <SessionButton formType={'login'}
+                                   loadingState={loadingState}
+                                   setLoadingState={setLoadingState}/>
+                </div>
+            }
             <Menu
             mode="inline"
             theme='dark'
             selectable={false}
             style={{ borderRight: 0 }}
-        >
+            >
                 <Menu.Item key="1"
                     icon={<PlusOutlined />}
                     onClick={() => setModalState(true)}>Create Notepad</Menu.Item>
@@ -37,4 +60,8 @@ const Sidebar = () => {
     )
 }
 
-export default Sidebar;
+const mapStateToProps = (state : RootState) => ({
+    isAuthenticated: state.session.isAuthenticated
+});
+
+export default connect(mapStateToProps, {})(Sidebar);

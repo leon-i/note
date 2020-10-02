@@ -6,26 +6,32 @@ import Navbar from './navbar/navbar';
 import NotepadScreen from '../screens/Notepad';
 import PostScreen from '../screens/Post';
 import Sidebar from '../components/sidebar/sidebar';
+import Footer from "./footer/footer";
+import {useSider} from "../hooks/useSider";
 import { ThemeProvider } from "styled-components";
 import {theme} from "../styles/theme";
 import {GlobalStyle} from "../styles/global";
+import {useWindowSize} from "../hooks/useWindowSize";
 
 const { Header, Sider, Content } = Layout;
 
 const App : React.FC = () => {
+    const [width] = useWindowSize();
+    const {siderStatus, toggleSider} = useSider();
+
+    const collapsed = width > 576 ? false : siderStatus;
   return (
       <ThemeProvider theme={theme}>
           <GlobalStyle />
         <Layout>
-          <Sider breakpoint='sm'
+          <Sider id = 'sider'
+                 breakpoint='sm'
                  collapsedWidth='0'
+                 collapsed={collapsed}
                  zeroWidthTriggerStyle={{
-                     background: '#1890ff',
-                     top: '48px',
-                     right: '-50px',
-                     width: '50px'
+                     display: 'none'
                  }} >
-            <Sidebar />
+            <Sidebar isMobile={width <= 576} />
           </Sider>
           <Layout>
             <Header>
@@ -38,6 +44,10 @@ const App : React.FC = () => {
                   <Route exact path='/Notepads/:id' component={NotepadScreen} />
               </Switch>
             </Content>
+              {
+                  width <= 576 &&
+                  <Footer toggleSider={toggleSider} />
+              }
           </Layout>
         </Layout>
       </ThemeProvider>

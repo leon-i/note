@@ -32,4 +32,8 @@ export const FavoritesMenuWrapper = styled.div`
             font-size: 1.1em;
         }
     }
+    
+    .ant-menu-sub {
+        min-height: 100px;
+    }
 `

@@ -31,6 +31,8 @@ export const GlobalStyle = createGlobalStyle`
     
     @media (max-width: 576px) {
         display: flex;
+        justify-content: center;
+        padding: 0;
     }
 }
 

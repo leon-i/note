@@ -23,11 +23,12 @@ getFavorites,
 deleteFavorite}) => {
     useEffect(() => {
         const retrieveFavorites = async() => {
-            await getFavorites(userId)
+            await getFavorites(userId);
         }
 
         if (loggedIn) retrieveFavorites();
-    }, [loggedIn, getFavorites, userId])
+    }, [loggedIn, getFavorites, userId]);
+
     return (
         <FavoritesMenuWrapper>
             <Menu
@@ -35,12 +36,15 @@ deleteFavorite}) => {
                 theme='dark'
                 selectable={false}
                 defaultOpenKeys={['favorites']}
+                forceSubMenuRender={true}
                 style={{ borderRight: 0 }}
             >
-                <Menu.SubMenu key='favorites' icon={<HeartFilled />} title='Favorites'>
+                <Menu.SubMenu key='favorites'
+                              icon={<HeartFilled />}
+                              title='Favorites'>
                     {
-                        Object.values(favorites).map((favorite : Notepad) => (
-                            <Menu.Item>
+                        Object.values(favorites).map((favorite : Notepad, idx: number) => (
+                            <Menu.Item key={idx}>
                                 <Link to={`/notepads/${favorite.ID}`}>
                                     {`#${favorite.name}`}
                                 </Link>

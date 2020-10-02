@@ -38,8 +38,7 @@ const NotepadSearch : React.FC<RouteComponentProps> = ({ history }) => {
     const [value, setValue] = useState<string>('');
     const [width] = useWindowSize();
     const searchStyle = width <= 576 ? {
-        width: '250px',
-        marginLeft: '40px'
+        width: '250px'
     } : {
         width: '400px'
     };
