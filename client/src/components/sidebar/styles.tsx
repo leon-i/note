@@ -14,11 +14,8 @@ export const Logo = styled.h2`
 `;
 
 export const FavoritesMenuWrapper = styled.div`
-    margin-top: 10%;
-    
     h4, h5 {
         color: #fff;
-        margin-left: 18px;
         margin-bottom: 0;
     }
     
@@ -26,7 +23,17 @@ export const FavoritesMenuWrapper = styled.div`
         font-weight: normal;
     }
     
-    .ant-typography + h5.ant-typography {
-        margin-top: 8px;
+    .ant-menu-dark .ant-menu-inline.ant-menu-sub {
+        background: transparent;
+    }
+    
+    .ant-menu-submenu-title {
+        span {
+            font-size: 1.1em;
+        }
+    }
+    
+    .ant-menu-sub {
+        min-height: 100px;
     }
 `

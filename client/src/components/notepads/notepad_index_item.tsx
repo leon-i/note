@@ -12,7 +12,7 @@ interface Props {
 }
 
 const NotepadIndexItem : React.FC<Props> = ({ notepad, idx, loading }) => (
-        <Col span={6} style={{padding: '4px 8px'}}>
+        <Col lg={6} sm={24} style={{width: '100%', padding: '4px 8px'}}>
             <NotepadIndexItemWrapper>
                 <Card key={idx} title={
                     !loading &&

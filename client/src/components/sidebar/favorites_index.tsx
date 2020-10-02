@@ -6,8 +6,8 @@ import {RootState} from "../../reducers/root_reducer";
 import {FavoriteState} from "../../reducers/entities/entities_reducer";
 import {Notepad} from "../../interfaces";
 import {FavoritesMenuWrapper} from "./styles";
-import {Menu, Typography} from 'antd';
-
+import {Menu} from 'antd';
+import {HeartFilled} from "@ant-design/icons";
 interface Props {
     loggedIn: boolean | null;
     userId: number | null;
@@ -23,33 +23,35 @@ getFavorites,
 deleteFavorite}) => {
     useEffect(() => {
         const retrieveFavorites = async() => {
-            await getFavorites(userId)
+            await getFavorites(userId);
         }
 
         if (loggedIn) retrieveFavorites();
-    }, [loggedIn, getFavorites, userId])
+    }, [loggedIn, getFavorites, userId]);
+
     return (
         <FavoritesMenuWrapper>
-            <Typography.Title level={4}>Favorites</Typography.Title>
-            {
-                !loggedIn &&
-                <Typography.Title level={5}>Sign up to favorite notepads!</Typography.Title>
-            }
             <Menu
                 mode="inline"
                 theme='dark'
                 selectable={false}
+                defaultOpenKeys={['favorites']}
+                forceSubMenuRender={true}
                 style={{ borderRight: 0 }}
             >
-                {
-                    Object.values(favorites).map((favorite : Notepad) => (
-                        <Menu.Item>
-                            <Link to={`/notepads/${favorite.ID}`}>
-                                {`#${favorite.name}`}
-                            </Link>
-                        </Menu.Item>
-                    ))
-                }
+                <Menu.SubMenu key='favorites'
+                              icon={<HeartFilled />}
+                              title='Favorites'>
+                    {
+                        Object.values(favorites).map((favorite : Notepad, idx: number) => (
+                            <Menu.Item key={idx}>
+                                <Link to={`/notepads/${favorite.ID}`}>
+                                    {`#${favorite.name}`}
+                                </Link>
+                            </Menu.Item>
+                        ))
+                    }
+                </Menu.SubMenu>
             </Menu>
         </FavoritesMenuWrapper>
     )
