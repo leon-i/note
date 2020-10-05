@@ -24,6 +24,15 @@ const AutoCompleteWrapper = styled.div`
     .ant-input-affix-wrapper-lg .ant-input-search-icon::before {
         border-color: #747474;
     }
+    
+    .anticon-search {
+        opacity: 0.5;
+        
+        &:hover {
+            opacity: 1;
+            color: #fff;
+        }
+    }
 `;
 
 const createOption = (notepad : Notepad) => {
