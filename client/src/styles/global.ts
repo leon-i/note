@@ -29,7 +29,7 @@ export const GlobalStyle = createGlobalStyle`
     padding-left: 32px;
     background: ${darkLayer1};
     
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
         display: flex;
         justify-content: center;
         padding: 0;

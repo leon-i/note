@@ -5,7 +5,7 @@ import { Menu } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import FavoritesIndex from "./favorites_index";
 import SessionButton from "../session/session_button";
-import { Logo } from './styles';
+import { Logo, SessionButtonsWrapper } from './styles';
 import {RootState} from "../../reducers/root_reducer";
 
 const NotepadForm = lazy(() => import('../notepads/notepad_form'));
@@ -28,19 +28,14 @@ const Sidebar : React.FC<Props> = ({ isMobile, isAuthenticated }) => {
             </Logo>
             {
                 (isMobile && !isAuthenticated) &&
-                <div style={{ display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    width: '100%',
-                    padding: '0 16px',
-                    margin: '12px 0'}}>
+                <SessionButtonsWrapper>
                     <SessionButton formType={'register'}
                                    loadingState={loadingState}
                                    setLoadingState={setLoadingState} />
                     <SessionButton formType={'login'}
                                    loadingState={loadingState}
                                    setLoadingState={setLoadingState}/>
-                </div>
+                </SessionButtonsWrapper>
             }
             <Menu
             mode="inline"

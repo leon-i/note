@@ -18,16 +18,24 @@ const NotepadWrapper = styled(Space)`
 
     .notepad-header {
         display: flex;
+        align-items: center;
         justify-content: space-between;
         padding-right: 48px;
 
         h2 {
+            margin: 0;
             color: #fff;
             
             svg {
                 font-size: 0.7em;
                 margin: 0 0 2px 12px;
             }
+        }
+    }
+    
+    @media (max-width: 756px) {
+        .notepad-header {
+            padding-right: 0;
         }
     }
 `;

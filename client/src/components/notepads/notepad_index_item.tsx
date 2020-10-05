@@ -1,9 +1,9 @@
 import React from 'react';
-import {Card, Col} from 'antd';
+import { Card } from 'antd';
 import { Notepad } from '../../interfaces';
 import { Link } from 'react-router-dom';
 import FavoriteButton from "./favorite_button";
-import {NotepadIndexItemWrapper} from "./styles";
+import { NotepadIndexItemWrapper } from "./styles";
 
 interface Props {
     notepad: Notepad;
@@ -12,8 +12,7 @@ interface Props {
 }
 
 const NotepadIndexItem : React.FC<Props> = ({ notepad, idx, loading }) => (
-        <Col lg={6} sm={24} style={{width: '100%', padding: '4px 8px'}}>
-            <NotepadIndexItemWrapper>
+        <NotepadIndexItemWrapper lg={6} sm={24}>
                 <Card key={idx} title={
                     !loading &&
                     <div className='notepad-index-item-title'>
@@ -26,8 +25,7 @@ const NotepadIndexItem : React.FC<Props> = ({ notepad, idx, loading }) => (
                 loading={loading}>
                     <p>{notepad.description}</p>
                 </Card>
-            </NotepadIndexItemWrapper>
-        </Col>
+        </NotepadIndexItemWrapper>
 )
 
 export default NotepadIndexItem;

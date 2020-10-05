@@ -21,6 +21,10 @@ export const CommentsPreviewWrapper = styled(Col)`
     &::-webkit-scrollbar-thumb:hover {
         background-color: $deep-pink;
     }
+    
+    @media (max-width: 768px) {
+        display: none;
+    }
 `
 
 export const CommentsPreviewCard = styled(Card)`
@@ -122,6 +126,11 @@ export const CommentCard = styled(Card)`
     button {
         padding: 2px 0;
         border: none;
+    }
+    
+    @media (max-width: 756px) {
+        min-width: 79.7%;
+        max-width: 93.5%;
     }
 `;
 

@@ -31,7 +31,7 @@ const App : React.FC = () => {
                  zeroWidthTriggerStyle={{
                      display: 'none'
                  }} >
-            <Sidebar isMobile={width <= 576} />
+            <Sidebar isMobile={width <= 768} />
           </Sider>
           <Layout>
             <Header>
