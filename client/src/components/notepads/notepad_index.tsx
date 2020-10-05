@@ -15,7 +15,8 @@ interface Props {
 }
 
 const notepadConvert = (notepads : Notepad[], loading : boolean) => {
-    const items = notepads.map((notepad, idx) => <NotepadIndexItem notepad={notepad} key={idx} idx={idx} loading={loading} />)
+    const items = notepads.map((notepad, idx) =>
+        <NotepadIndexItem notepad={notepad} key={idx} idx={idx} loading={loading} />)
 
     return (
         <>
