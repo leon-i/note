@@ -15,7 +15,7 @@ interface Props {
 
 const PostItem : React.FC<Props> = ({ post, loading , withPreview, newComment}) => (
     <Row justify={withPreview ? 'start' : 'center'}>
-        <Col span={withPreview ? 16 : 20}>
+        <Col md={withPreview ? 16 : 20} sm={24} xs={24}>
             <PostCard loading={loading} title={
                 !loading &&
                 <div className='post-title'>

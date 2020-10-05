@@ -44,6 +44,14 @@ const PostWrapper = styled.div`
             color: #1890ff;
         }
     }
+    
+    @media (max-width: 756px) {
+        margin-bottom: 38px;
+        
+        .comments-index {
+            margin-left: 4%;
+        }
+    }
 `;
 
 interface Props {

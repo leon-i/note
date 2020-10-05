@@ -28,7 +28,7 @@ export const StyledNav = styled.nav`
         font-size: 1.4em;
     }
     
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
         .session-btns {
             display: none;
         }

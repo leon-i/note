@@ -37,3 +37,12 @@ export const FavoritesMenuWrapper = styled.div`
         min-height: 100px;
     }
 `
+
+export const SessionButtonsWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 16px;
+    margin: 12px 0;
+`;
