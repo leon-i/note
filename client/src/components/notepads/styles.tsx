@@ -25,7 +25,8 @@ export const NotepadIndexWrapper = styled(Space)`
         margin-top: 10%;
     }
     
-    @media (max-width: 756px) {
+    @media (max-width: 768px) {
+        padding: 24px;
         margin-bottom: 48px;
         
         .ant-space-item {

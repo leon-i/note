@@ -1,10 +1,10 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { connect } from 'react-redux';
-import {withRouter, RouteComponentProps} from 'react-router-dom';
+import {withRouter, RouteComponentProps, Link} from 'react-router-dom';
 import { Post, Comment } from '../interfaces';
 import { RootState } from '../reducers/root_reducer';
 import { fetchPost } from '../actions/post_actions';
-import {Card} from 'antd';
+import {Card, Button, Row, Col} from 'antd';
 import styled from "styled-components";
 import PostItem from "../components/posts/post";
 import CommentItem from '../components/comments/comment';
@@ -45,11 +45,22 @@ const PostWrapper = styled.div`
         }
     }
     
-    @media (max-width: 756px) {
+    .ant-btn-link {
+        font-size: 1.2em;
+        margin-bottom: 24px;
+    }
+    
+    @media (max-width: 768px) {
+        padding: 12px 24px 24px 24px;
         margin-bottom: 38px;
         
         .comments-index {
             margin-left: 4%;
+        }
+        
+        .ant-btn-link {
+            font-size: 1.2em;
+            margin-bottom: 12px;
         }
     }
 `;
@@ -64,7 +75,7 @@ type TParams =  { postId: string };
 
 const commentsConvert = (comments : Comment[], handleReply : (id : number) => void) => (
     comments.map((comment : Comment, idx : number) => (
-        <CommentItem comment={comment} handleReply={handleReply} />
+        <CommentItem key={idx} comment={comment} handleReply={handleReply} />
     ))
 );
 
@@ -95,6 +106,15 @@ const PostDisplay : React.FC<Props & RouteComponentProps<TParams>> = ({ post, co
                     <Card title='...' loading={fetchingState} />
                 ) : (
                     <>
+                    <Row>
+                        <Col span={24}>
+                            <Button type='link'>
+                                <Link to={`/Notepads/${post.notepad_id}`}>
+                                    {`Back to #${post.notepad.name}`}
+                                </Link>
+                            </Button>
+                        </Col>
+                    </Row>
                     <PostItem post={post} loading={false}
                               withPreview={false}
                               newComment={() => setModalState(true)} />

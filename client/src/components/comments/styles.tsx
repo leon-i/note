@@ -128,9 +128,15 @@ export const CommentCard = styled(Card)`
         border: none;
     }
     
-    @media (max-width: 756px) {
+    @media (max-width: 768px) {
         min-width: 79.7%;
         max-width: 93.5%;
+
+        .comment-image {
+            min-width: 110px;
+            max-width: 110px;
+            margin-right: 8px;
+        }
     }
 `;
 

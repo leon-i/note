@@ -45,7 +45,6 @@ const PostItem : React.FC<Props> = ({ post, loading , withPreview, newComment}) 
                         post.imageURL &&
                         <Image className='post-image'
                                src={post.imageURL}
-                               width={200}
                                height={150}
                                alt='post-image' />
                     }

@@ -59,4 +59,22 @@ export const PostCard = styled(Card)`
             color: #1890ff;
         } 
     }
+
+    @media (max-width: 576px) {
+        .ant-card-head-title {
+            font-size: 1em;
+            flex-wrap: wrap;
+        }
+
+        .post-image {
+            min-width: 100%;
+            max-width: 100%;
+            margin-right: 0px;
+            margin-bottom: 12px;
+        }
+
+        .ant-card-body .post-body {
+            flex-direction: column;
+        }
+    }
 `;

@@ -33,10 +33,16 @@ const NotepadWrapper = styled(Space)`
         }
     }
     
-    @media (max-width: 756px) {
+    @media (max-width: 768px) {
+        padding: 24px;
+
         .notepad-header {
             padding-right: 0;
         }
+    }
+
+    @media (max-width: 576px) {
+        padding: 24px 24px 80px 24px;
     }
 `;
 

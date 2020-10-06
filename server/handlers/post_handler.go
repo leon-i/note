@@ -9,10 +9,10 @@ import (
 )
 
 type NewPost struct {
-	Title     string	`form:"title"`
-	Content   string	`form:"content"`
-	UserID    uint	`form:"UserID"`
-	NotepadID uint	`form:"NotepadID"`
+	Title     string `form:"title"`
+	Content   string `form:"content"`
+	UserID    uint   `form:"UserID"`
+	NotepadID uint   `form:"NotepadID"`
 }
 
 func GetPosts(c *fiber.Ctx) {
@@ -32,7 +32,8 @@ func GetPost(c *fiber.Ctx) {
 
 	if err := db.DBConn.Preload("User", func(db *gorm.DB) *gorm.DB {
 		return db.Select("users.ID, users.username")
-	}).Preload("Comments").
+	}).Preload("Notepad").
+		Preload("Comments").
 		Preload("Comments.Replies").
 		Preload("Comments.User", func(db *gorm.DB) *gorm.DB {
 			return db.Select("users.ID, users.username")
@@ -52,7 +53,7 @@ func GetPost(c *fiber.Ctx) {
 	post.Comments = nil
 
 	c.JSON(fiber.Map{
-		"post": post,
+		"post":     post,
 		"comments": comments,
 	})
 }
@@ -86,9 +87,9 @@ func CreatePost(c *fiber.Ctx) {
 
 	if err := db.DBConn.Create(&post).Error; err != nil {
 		c.Status(500).JSON(fiber.Map{
-			"status": "error",
+			"status":  "error",
 			"message": "Log in to create a post",
-			"data": nil,
+			"data":    nil,
 		})
 		return
 	}
