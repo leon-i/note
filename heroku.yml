@@ -4,10 +4,12 @@ setup:
       as: DATABASE
 build:
   docker:
-    web: Dockerfile
+    client: Dockerfile
+    server: Dockerfile
   config:
     POSTGRES_DB: note_db
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: postgres
 run:
-  web: npm start
+  client: npm start
+  server: go run main.go
